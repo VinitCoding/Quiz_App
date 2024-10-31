@@ -70,6 +70,7 @@ const VisibilityTrigger = forwardRef(function VisibilityTrigger(props, ref) {
       height='calc(100% - {spacing.2})'
       aria-label='Toggle password visibility'
       {...props}
+      style={{ marginRight: '2px' }}
     />
   )
 })
