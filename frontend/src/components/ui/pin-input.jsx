@@ -9,7 +9,7 @@ export const PinInput = forwardRef(function PinInput(props, ref) {
       <ChakraPinInput.Control>
         <Group attached={attached}>
           {Array.from({ length: count }).map((_, index) => (
-            <ChakraPinInput.Input key={index} index={index} />
+            <ChakraPinInput.Input key={index} index={index} className='border-black'/>
           ))}
         </Group>
       </ChakraPinInput.Control>
