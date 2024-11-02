@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import laptop_img from '../assets/laptop_bg.svg'
 import { ChakraProvider, Input, PinInputInput } from "@chakra-ui/react"
 import { Field } from "../components/ui/field"
@@ -7,56 +7,16 @@ import logo from '../assets/logo.svg'
 import toast, { Toaster } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { signUpSchemas, loginSchemas } from '../schemas/auth_schema.js'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-import { PinInput } from '../components/ui/pin-input.jsx'
-import { Provider } from '../components/ui/provider.jsx'
-import OtpInput from 'react-otp-input';
+import {useNavigate} from 'react-router-dom'
 
 
 const AuthenticationPage = () => {
-    const otpSwal = withReactContent(Swal)
     const [signIn, setSignIn] = useState(false)
-    const [otp, setOtp] = useState('')
-    const [timer, setTimer] = useState(30); // Timer set for 30 seconds
+    const navigate = useNavigate()
     const handleForm = () => {
         setSignIn(!signIn)
     }
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-
-    // Use Effect for timer
-    // Start countdown
-    const countdown = setInterval(() => {
-        setTimer((prevTimer) => {
-            if (prevTimer <= 1) {
-                clearInterval(countdown);
-                setIsButtonDisabled(false); // Enable button after timer expires
-                return 0;
-            }
-            return prevTimer - 1;
-        });
-    }, 1000);
     
-    const showOtpModal = () => {
-        otpSwal.fire({
-            title: 'OTP verification',
-            html: (
-                <Provider>
-                    <div className='flex flex-col items-center justify-center gap-y-4'>
-                        <h2 className='text-sm'>OTP has been sent to registered email ID. Please verify it</h2>
-                        <PinInput onChange={(e) => setOtp(e.target.value)} />
-                        <div>
-                            <p>{`OTP will expire in ${timer} seconds`}</p>
-                        </div>
-                        <button className='px-4 py-2 text-base text-white bg-dark-blue'>Verify OTP</button>
-                    </div>
-                </Provider>
-            ),
-            allowOutsideClick: false,
-            showConfirmButton: false
-        })
-    }
 
     const SignUpInitialValues = {
         full_name: '',
@@ -78,7 +38,7 @@ const AuthenticationPage = () => {
             console.log(values.full_name);
             setTimeout(() => {
                 setTimeout(() => {
-                    showOtpModal()
+                    navigate('/otp_verify')
                 }, 2000);
                 toast.success("OTP sent Successful");
             }, 1000);
@@ -97,13 +57,12 @@ const AuthenticationPage = () => {
             action.resetForm()
         }
     })
+
+    
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = signIn ? signInFormik : signUpFormik
     useEffect(() => {
         console.log(errors);
     }, [errors])
-
-
-
 
     return (
         <section className='bg-gradient-to-t from-slate-50 to-[#d6eaff] w-screen h-screen overflow-hidden'>
@@ -211,7 +170,8 @@ const AuthenticationPage = () => {
                             </div>
 
                             <div className='flex flex-col items-center justify-center mt-4 gap-y-4'>
-                                <button type='submit' className='px-5 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400'>SignUp</button>
+                                    <button type='submit' className='px-5 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400' >SignUp</button>
+                                {/* <OTPModal /> */}
                                 <p>Already have account? <span className='font-medium cursor-pointer text-dark-blue hover:underline' onClick={handleForm}>Sign In</span></p>
                             </div>
                         </form>
