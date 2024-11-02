@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const OTPVerification = () => {
+    // const location = useLocation()
+    // const {data} = location.state
     const [otp, setOtp] = useState('')
     const [minutes, setMinutes] = useState(0)
     const [seconds, setSeconds] = useState(10)
+    const navigate = useNavigate()
 
     const resendOTP = () => {
         console.log('Resend OTP');
@@ -48,6 +52,9 @@ const OTPVerification = () => {
             setOtp(' ')
             setMinutes(0)
             setSeconds(0)
+            setTimeout(() => {
+                navigate('/candidate_dashboard')
+            }, 3000)
         } else {
             toast.error('You entered wrong otp')
         }

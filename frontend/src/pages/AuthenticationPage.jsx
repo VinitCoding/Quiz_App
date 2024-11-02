@@ -24,8 +24,8 @@ const AuthenticationPage = () => {
     //                 "confirm_password": "string",
     //                     "mobile_no": 0
     // }
-    const URL = 'http://127.0.0.1:8000/exam'
-    
+    // const URL = 'http://127.0.0.1:8000/exam'
+
 
     const SignUpInitialValues = {
         full_name: '',
@@ -45,29 +45,48 @@ const AuthenticationPage = () => {
         validationSchema: signUpSchemas,
         onSubmit: async (values, action) => {
             try {
-                const response = await axios.post(`${URL}/users`, {
-                    "full_name": values.full_name,
-                    "email": values.email,
-                    "password": values.password,
-                    "confirm_password": values.confirm_password,
-                    "mobile_number": values.mobile_number
-                })
-                if (response) {
-                    console.log(response);
-                    // setTimeout(() => {
-                    //     setTimeout(() => {
-                    //         navigate('/otp_verify')
-                    //     }, 2000);
-                    //     toast.success("OTP sent Successful");
-                    // }, 1000);
-                }
+                // const response = await axios.post(`${URL}/users`, {
+                //     "full_name": values.full_name,
+                //     "email": values.email,
+                //     "password": values.password,
+                //     "confirm_password": values.confirm_password,
+                //     "mobile_no": parseInt(values.mobile_number)
+                // })
+                // if (response) {
+                //     console.log(response);
+                //     setTimeout(() => {
+                //         setTimeout(() => {
+                //             navigate('/otp_verify', {
+                //                 state: {
+                //                     data: {
+                //                        values 
+                //                     }
+                //                 }
+                //             })
+                //         }, 2000);
+                //         toast.success("OTP sent Successful");
+                //     }, 1000);
+                // }
+                setTimeout(() => {
+                    setTimeout(() => {
+                        navigate('/otp_verify', {
+                            state: {
+                                data: {
+                                    values
+                                }
+                            }
+                        })
+                    }, 2000);
+                    toast.success("OTP sent Successful");
+                }, 1000);
                 setSignIn(false)
                 action.resetForm()
             } catch (error) {
-                console.log(error); 
+                console.log(error);
+                toast.error
             }
-            
-            
+
+
         }
     })
 
@@ -78,11 +97,14 @@ const AuthenticationPage = () => {
         onSubmit: (values, action) => {
             console.log(values.email);
             toast.success('Login successfully')
+            setTimeout(() => {
+                navigate('/candidate_dashboard')
+            }, 3000)
             action.resetForm()
         }
     })
 
-    
+
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = signIn ? signInFormik : signUpFormik
     useEffect(() => {
         console.log(errors);
@@ -194,7 +216,7 @@ const AuthenticationPage = () => {
                             </div>
 
                             <div className='flex flex-col items-center justify-center mt-4 gap-y-4'>
-                                    <button type='submit' className='px-5 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400' >SignUp</button>
+                                <button type='submit' className='px-5 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400' >SignUp</button>
                                 {/* <OTPModal /> */}
                                 <p>Already have account? <span className='font-medium cursor-pointer text-dark-blue hover:underline' onClick={handleForm}>Sign In</span></p>
                             </div>
