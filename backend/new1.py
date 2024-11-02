@@ -47,6 +47,22 @@ class Token(BaseModel):
     token_type: str
 
 
+class UserDetails(BaseModel):
+    full_name: str
+    email: str
+    password: str
+    confirm_password: str
+    mobile_no: int
+
+class LoginUser(BaseModel):
+    email: str
+    password: str
+
+class VerifyOTP(BaseModel):
+    email: str
+    user_otp: str
+
+    
 SQLModel.metadata.create_all(bind=engine)
 
 def get_password_hash(password: str) -> str:
@@ -103,8 +119,33 @@ def check_otp(email: str, user_otp: str, db: Session) -> dict:
         return {"status": False, "Message": "OTP Verification Failed"}
 
 
+# @router.post("/users/", response_model=dict)
+# def create_user(full_name: str, email: str, password: str, confirm_password: str, mobile_no: str, db: Session = Depends(get_db)):
+#     existing_user = db.query(User).filter((User.email == email) | (User.mobile_no == mobile_no)).first()
+#     if password != confirm_password:
+#         raise HTTPException(status_code=400, detail="Password and confirm password do not match")
+    
+#     if existing_user:
+#         raise HTTPException(status_code=400, detail="User with this email or phone number already exists.")
+
+#     hashed_password = get_password_hash(password)
+#     db_user = User(full_name=full_name, email=email, password=hashed_password, mobile_no=mobile_no)
+    
+#     db.add(db_user)
+#     db.commit()
+#     db.refresh(db_user)
+    
+#     return {"id": db_user.id, "full_name": db_user.full_name, "email": db_user.email}
+
+
 @router.post("/users/", response_model=dict)
-def create_user(full_name: str, email: str, password: str, confirm_password: str, mobile_no: str, db: Session = Depends(get_db)):
+def create_user(user_details:UserDetails, db: Session = Depends(get_db)):
+    full_name = user_details.full_name
+    email = user_details.email
+    password = user_details.password
+    confirm_password = user_details.confirm_password
+    mobile_no = user_details.mobile_no
+
     existing_user = db.query(User).filter((User.email == email) | (User.mobile_no == mobile_no)).first()
     if password != confirm_password:
         raise HTTPException(status_code=400, detail="Password and confirm password do not match")
@@ -121,8 +162,13 @@ def create_user(full_name: str, email: str, password: str, confirm_password: str
     
     return {"id": db_user.id, "full_name": db_user.full_name, "email": db_user.email}
 
+
+    
 @router.post("/login", response_model=Token)
-def login(email: str, password: str, db: Session = Depends(get_db)):
+def login(login_details:LoginUser, db: Session = Depends(get_db)):
+    email = login_details.email
+    password = login_details.password
+
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
@@ -172,8 +218,13 @@ def send_otp(email: str, db: Session = Depends(get_db)):
     otp = one_time_password(to_mail=email, db=db)
     return f'OTP sent to {email}'
 
+
 @router.post('/otp-verification')
-def otp_verification(email: str, user_otp: str, db: Session = Depends(get_db)):
+def otp_verification(verification:VerifyOTP, db: Session = Depends(get_db)):
+    email = verification.email
+    user_otp = verification.user_otp
+
+    print('user_otp : ', user_otp)
     access = check_otp(email=email, user_otp=user_otp, db=db)
     if access['status']:
         return 'OTP Verification Successful'
