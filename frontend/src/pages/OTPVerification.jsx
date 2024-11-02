@@ -13,6 +13,7 @@ const OTPVerification = () => {
         setSeconds(15)
     }
 
+    // Timer functions
     useEffect(() => {
         const interval = setInterval(() => {
             // Decrease the seconds if greater than 0
@@ -39,6 +40,7 @@ const OTPVerification = () => {
         }
     }, [seconds]) // Re-run this effects whenever the seconds is changed
 
+    // Verify OTP
     const verify_otp = () => {
         if (otp === '1234') {
             toast.success('OTP verified')

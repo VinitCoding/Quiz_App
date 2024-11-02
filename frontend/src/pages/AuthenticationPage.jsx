@@ -7,7 +7,8 @@ import logo from '../assets/logo.svg'
 import toast, { Toaster } from 'react-hot-toast'
 import { useFormik } from 'formik'
 import { signUpSchemas, loginSchemas } from '../schemas/auth_schema.js'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 const AuthenticationPage = () => {
@@ -16,6 +17,14 @@ const AuthenticationPage = () => {
     const handleForm = () => {
         setSignIn(!signIn)
     }
+    // {
+    //     "full_name": "string",
+    //         "email": "string",
+    //             "password": "string",
+    //                 "confirm_password": "string",
+    //                     "mobile_no": 0
+    // }
+    const URL = 'http://127.0.0.1:8000/exam'
     
 
     const SignUpInitialValues = {
@@ -34,16 +43,31 @@ const AuthenticationPage = () => {
     const signUpFormik = useFormik({
         initialValues: SignUpInitialValues,
         validationSchema: signUpSchemas,
-        onSubmit: (values, action) => {
-            console.log(values.full_name);
-            setTimeout(() => {
-                setTimeout(() => {
-                    navigate('/otp_verify')
-                }, 2000);
-                toast.success("OTP sent Successful");
-            }, 1000);
-            setSignIn(false)
-            action.resetForm()
+        onSubmit: async (values, action) => {
+            try {
+                const response = await axios.post(`${URL}/users`, {
+                    "full_name": values.full_name,
+                    "email": values.email,
+                    "password": values.password,
+                    "confirm_password": values.confirm_password,
+                    "mobile_number": values.mobile_number
+                })
+                if (response) {
+                    console.log(response);
+                    // setTimeout(() => {
+                    //     setTimeout(() => {
+                    //         navigate('/otp_verify')
+                    //     }, 2000);
+                    //     toast.success("OTP sent Successful");
+                    // }, 1000);
+                }
+                setSignIn(false)
+                action.resetForm()
+            } catch (error) {
+                console.log(error); 
+            }
+            
+            
         }
     })
 
