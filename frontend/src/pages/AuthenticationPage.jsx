@@ -119,7 +119,7 @@ const AuthenticationPage = () => {
             </div>
 
             {/* Auth_section */}
-            <div className={`flex justify-center ${signIn ? 'mt-20' : 'mt-10'}`}>
+            <div className={`flex justify-center ${signIn ? 'mt-20' : 'mt-5'}`}>
                 {
                     signIn ? (
                         // SignIn
@@ -151,43 +151,8 @@ const AuthenticationPage = () => {
                         </form>
                     ) : (
                         // SignUp
-
-                        // <form className='bg-white py-3 w-[30%] px-4 shadow-md rounded-lg' onSubmit={handleSubmit}>
-                        //     <div className='flex flex-col items-center justify-center mt-5 text-center'>
-                        //         <img src={logo} alt="logo" className='w-[16%]' />
-                        //         <h2 className='mt-3 text-2xl font-semibold'>Sign Up</h2>
-                        //         <h4>Let's sign up quickly to get started.</h4>
-                        //     </div>
-                        //     <div className='flex flex-col mt-2 gap-y-4'>
-                        //         <Field label="Full Name" required >
-                        //             <Input variant='subtle' className='pl-2' name='full_name' value={values.full_name} onChange={handleChange} onBlur={handleBlur} />
-                        //             {errors.full_name && touched.full_name ? (<p className='text-sm font-semibold text-red-400'>{errors.full_name}</p>) : null}
-                        //         </Field>
-                        //         <Field label="Email" required>
-                        //             <Input variant='subtle' className='pl-2' name='email' value={values.email} onChange={handleChange} onBlur={handleBlur} />
-                        //             {errors.email && touched.email ? (<p className='text-sm font-semibold text-red-400'>{errors.email}</p>) : null}
-                        //         </Field>
-                        //         <Field label="Mobile Number" required>
-                        //             <Input variant='subtle' className='pl-2' name='mobile_number' value={values.mobile_number} onChange={handleChange} onBlur={handleBlur} />
-                        //             {errors.mobile_number && touched.mobile_number ? (<p className='text-sm font-semibold text-red-400'>{errors.mobile_number}</p>) : null}
-                        //         </Field>
-                        //         <Field label="Password" required>
-                        //             <PasswordInput variant='subtle' className='pl-2' name='password' value={values.password} onChange={handleChange} onBlur={handleBlur} />
-                        //             {errors.password && touched.password ? (<p className='text-sm font-semibold text-red-400'>{errors.password}</p>) : null}
-                        //         </Field>
-                        //         <Field label="Confirm Password" required>
-                        //             <PasswordInput variant='subtle' className='pl-2' name='confirm_password' value={values.confirm_password} onChange={handleChange} onBlur={handleBlur} />
-                        //             {errors.confirm_password && touched.confirm_password ? (<p className='text-sm font-semibold text-red-400'>{errors.confirm_password}</p>) : null}
-                        //         </Field>
-                        //     </div>
-
-                        //     <div className='flex flex-col items-center justify-center mt-4 gap-y-4'>
-                        //         <button type='submit' className='px-5 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400'>SignUp</button>
-                        //         <p>Already have account? <span className='font-medium cursor-pointer text-dark-blue hover:underline' onClick={handleForm}>Sign In</span></p>
-                        //     </div>
-                        // </form>
                         <form className='bg-white py-3 w-[30%] px-4 shadow-md rounded-lg' onSubmit={handleSubmit}>
-                            <div className='flex flex-col items-center justify-center mt-5 text-center'>
+                            <div className='flex flex-col items-center justify-center text-center lg:mt-3 md:mt-2'>
                                 <img src={logo} alt="logo" className='w-[16%]' />
                                 <h2 className='mt-3 text-2xl font-semibold'>Sign Up</h2>
                                 <h4>Let's sign up quickly to get started.</h4>
