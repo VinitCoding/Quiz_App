@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage'
 import AuthenticationPage from './pages/AuthenticationPage'
 import OTPVerification from './pages/OTPVerification'
 import Candi_Dashboard from './pages/Candi_Dashboard'
+import ExamPage from './pages/ExamPage'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/auth' element={<AuthenticationPage />} />
         <Route path='/otp_verify' element={<OTPVerification />} />
         <Route path='/candidate_dashboard' element={<Candi_Dashboard />} />
+        <Route path='/exam' element={<ExamPage />}/>
       </Routes>
     </main>
   )

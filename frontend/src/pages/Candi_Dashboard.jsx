@@ -2,11 +2,30 @@ import React from "react";
 import logo from "../assets/logo.svg";
 import bg_img from "../assets/candidate_bg.svg";
 // import bg_circle from '../assets/bg_circle.svg'
-import { Separator } from "@chakra-ui/react";
 import { IoCalendarOutline } from "react-icons/io5";
 import status_logo from "../assets/status_logo.svg";
+import { RiLogoutBoxRLine } from "react-icons/ri";
+import {
+  Divider,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  User,
+} from "@nextui-org/react";
+import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Candi_Dashboard = () => {
+  const getUser = localStorage.getItem("sign_up_user_email");
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('sign_up_user_email')
+    navigate('/')
+  }
+  const navigateExamPage = () => {
+    navigate('/exam')
+  }
   return (
     <section className="bg-gradient-to-t from-[#c8e3ff] to-slate-50 w-screen h-screen overflow-hidden">
       {/* Bg_elements img */}
@@ -15,9 +34,44 @@ const Candi_Dashboard = () => {
       </div>
 
       {/* Navbar */}
-      <nav className="flex w-full p-3 bg-white border-b-2 gap-x-1">
-        <img src={logo} alt="" className="w-[3%]" />
-        <h2 className="text-3xl font-bold">Quizly</h2>
+      <nav className="flex justify-between w-full p-3 bg-white border-b-2 gap-x-1">
+        <div className="flex gap-x-2">
+          <img src={logo} alt="" className="w-[60%]" />
+          <h2 className="text-2xl font-bold">Quizly</h2>
+        </div>
+
+        <Dropdown>
+          <DropdownTrigger className="">
+            <button>
+              <FaUser />
+            </button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Static Actions">
+            <DropdownItem>
+              <User
+                name="Jane Doe"
+                description={`${getUser}`}
+                avatarProps={{
+                  src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                }}
+              />
+            </DropdownItem>
+            <DropdownItem>
+            <Divider />
+            </DropdownItem>
+            <DropdownItem
+              key="delete"
+              className="text-danger"
+              color="danger"
+              onClick={handleLogout}
+            >
+              <p className="flex items-center gap-x-2">
+                <RiLogoutBoxRLine className="text-lg"/>
+                <span>LogOut</span>
+              </p>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </nav>
 
       {/* Dashboard */}
@@ -26,14 +80,14 @@ const Candi_Dashboard = () => {
         {/* Exam Card*/}
         <div className="flex flex-col items-center justify-center text-center border-4 border-gray-300 gap-y-4 w-[45%] mx-3 mt-1 pb-4 rounded-md">
           <h2 className="mt-3 text-3xl font-semibold">Internship Exam</h2>
-          <button className="w-[14%] bg-green-300 text font-medium py-2 rounded-md mt-5  cursor-pointer absolute">
+          <button className="w-[14%] bg-green-300 text font-medium py-2 rounded-md cursor-pointer absolute top-[34%] hover:bg-green-200" onClick={navigateExamPage}>
             Start Exam
           </button>
-          <Separator className="border-[0.2px] border-gray-500 w-[60%] my-3" />
+          <Divider className="mt-16 w-[90%]" />
           <h3 className="font-semibold">Details</h3>
 
           {/* Details */}
-          <div className="mt-3">
+          <div className="">
             <div className="flex w-full bg-white gap-x-32">
               <div className="flex gap-x-2">
                 <IoCalendarOutline className="text-[130%]" />
@@ -57,20 +111,20 @@ const Candi_Dashboard = () => {
             <h2 className="text-xl font-semibold">Exam Rules</h2>
           </div>
 
-          <ul className="text-start">
-            <li className="ml-2">
-              1. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse,
-              nam.
+          <ol type="1" className="list-decimal list-inside">
+            <li>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
+              atque.
             </li>
-            <li className="ml-2">
-              2. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse,
-              nam.
+            <li>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
+              atque.
             </li>
-            <li className="ml-2">
-              3. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse,
-              nam.
+            <li>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
+              atque.
             </li>
-          </ul>
+          </ol>
         </div>
       </div>
     </section>
