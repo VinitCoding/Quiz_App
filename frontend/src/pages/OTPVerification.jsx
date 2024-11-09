@@ -64,19 +64,15 @@ const OTPVerification = () => {
     }
     
     return (
-        <section className='bg-gradient-to-t from-slate-50 to-[#d6eaff] w-screen h-screen overflow-hidden flex flex-col justify-center mx-auto'>
+        <section className='bg-gradient-to-t from-slate-50 to-[#d6eaff] w-screen h-screen overflow-hidden flex flex-col lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover bg-cover ' style={{ backgroundImage: `url(${otp_bg})`}}>
             <Toaster />
-            
-            {/* blue_bg */}
-            <div className='relative z-0'>
-                <img src={otp_bg} alt="" className='absolute w-[100%]'/>
-            </div>
 
-            <div className='z-10'>
-                <img src={otp_quiz_logo} alt="otp_quiz_logo"  className='w-[10%] mt-10 mx-auto'/>
+            <div className=''>
+                <img src={otp_quiz_logo} alt="otp_quiz_logo"  className='xl:w-[10%] lg:w-[15%] md:w-[18%] sm:w-[26%] w-[35%] mt-10 mx-auto'/>
             </div>
+            
             {/* OTP Card */}
-            <div className='flex flex-col justify-center p-6 mt-12 text-center bg-white rounded-md shadow-md w-[40%] h-fit items-center gap-y-2 z-10 mx-auto'>
+            <div className='flex flex-col justify-center p-6 mt-12 text-center bg-white rounded-md shadow-md xl:w-[40%] lg:w-[65%] md:[75%] sm:w-[85%] w-full items-center gap-y-2 z-10 xl:mx-auto lg:mx-auto md:mx-auto sm:mx-auto px-6'>
                 <img src={email_otp} alt="" className='w-[10%] mb-3'/>
                 <h2 className='text-3xl font-bold text-center '>
                     OTP Verification
@@ -107,8 +103,8 @@ const OTPVerification = () => {
             </div>
 
             {/* Footer */}
-            <footer className='z-10 flex justify-center mt-auto'>
-                <img src={footer_logo} alt="footer_logo" className='w-[15%] mb-2'/>
+            <footer className='flex justify-center mt-auto '>
+                <img src={footer_logo} alt="footer_logo" className='xl:w-[15%] lg:w-[18%] md:w-[25%] sm:w-[30%] w-[40%] mb-2'/>
             </footer>
         </section>
     )

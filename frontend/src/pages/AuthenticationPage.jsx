@@ -9,9 +9,10 @@ import { Input } from "@nextui-org/react";
 import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
 import axios from "axios";
+import auth_bg from '../assets/auth_bg.svg'
 
 const AuthenticationPage = () => {
-  const [signIn, setSignIn] = useState(false);
+  const [signIn, setSignIn] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const navigate = useNavigate();
@@ -111,23 +112,23 @@ const AuthenticationPage = () => {
   }, [errors]);
 
   return (
-    <section className="bg-gradient-to-t from-slate-50 to-[#d6eaff] w-screen h-screen overflow-hidden">
+    <section className="w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-y-auto sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover " style={{ backgroundImage: `url(${auth_bg})`}}>
       <Toaster />
       {/* Bg-img */}
       <div className="">
         <img
           src={laptop_img}
           alt=""
-          className="w-[18%] absolute top-[50%] left-[5%] h-auto"
+          className="xl:w-[18%] lg:w-[24%] xl:block lg:block md:hidden sm:hidden hidden absolute top-[50%] left-[5%] h-auto"
         />
       </div>
 
       {/* Auth_section */}
-      <div className={`flex justify-center ${signIn ? "mt-20" : "mt-5"}`}>
+      <div className={`flex justify-center ${signIn ? "mt-20" : "xl:mt-5 lg:mt-8 md:mt-10 sm:mt-14 mt-14"}`}>
         {signIn ? (
           // SignIn
           <form
-            className="bg-white py-3 w-[30%] px-4 shadow-md rounded-lg"
+            className="bg-white py-3 xl:w-[30%] lg:w-[40%] md:w-[60%] sm:w-[80%] xl:mx-0 lg:mx-0 md:mx-0 sm:mx-0 mx-8 w-full  px-4 shadow-md rounded-lg"
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col items-center justify-center mt-5 text-center">
@@ -213,7 +214,7 @@ const AuthenticationPage = () => {
         ) : (
           // SignUp
           <form
-            className="bg-white py-3 w-[30%] px-4 shadow-md rounded-lg"
+            className="bg-white py-3 xl:w-[30%] lg:w-[40%] md:w-[70%] sm:w-[80%] w-full xl:mx-0 lg:mx-0 md:mx-0 sm:mx-0 mx-6  px-4 shadow-md rounded-lg"
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col items-center justify-center text-center lg:mt-1 md:mt-2">

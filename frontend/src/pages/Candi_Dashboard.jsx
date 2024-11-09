@@ -27,11 +27,7 @@ const Candi_Dashboard = () => {
     navigate('/exam')
   }
   return (
-    <section className="bg-gradient-to-t from-[#c8e3ff] to-slate-50 w-screen h-screen overflow-hidden">
-      {/* Bg_elements img */}
-      <div className="relative">
-        <img src={bg_img} alt="" className="absolute w-screen" />
-      </div>
+    <section className="flex flex-col w-screen h-screen overflow-hidden bg-cover lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover " style={{ backgroundImage: `url(${bg_img})`}}>
 
       {/* Navbar */}
       <nav className="flex justify-between w-full p-3 bg-white border-b-2 gap-x-1">
@@ -80,10 +76,10 @@ const Candi_Dashboard = () => {
         {/* Exam Card*/}
         <div className="flex flex-col items-center justify-center text-center border-4 border-gray-300 gap-y-4 w-[45%] mx-3 mt-1 pb-4 rounded-md">
           <h2 className="mt-3 text-3xl font-semibold">Internship Exam</h2>
-          <button className="w-[14%] bg-green-300 text font-medium py-2 rounded-md cursor-pointer absolute top-[34%] hover:bg-green-200" onClick={navigateExamPage}>
+          <button className="p-2 font-medium bg-green-300 rounded-md cursor-pointer w-fit text hover:bg-green-200" onClick={navigateExamPage}>
             Start Exam
           </button>
-          <Divider className="mt-16 w-[90%]" />
+          <Divider className="w-[90%]" />
           <h3 className="font-semibold">Details</h3>
 
           {/* Details */}
