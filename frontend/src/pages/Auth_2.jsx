@@ -50,6 +50,8 @@ const Auth_2 = () => {
         //         toast.success(`${response.data}`);
         //     }, 1000);
         // }
+
+        
         setTimeout(() => {
           setTimeout(() => {
             navigate("/candidate_dashboard");

@@ -54,7 +54,7 @@ const OTPVerification = () => {
 
   // Verify OTP
   const verify_otp = () => {
-    if (otp === "1234") {
+    if (otp === "123456") {
       toast.success("OTP verified");
       console.log(otp);
       setOtp(" ");
@@ -100,7 +100,7 @@ const OTPVerification = () => {
         <div className="mt-4">
           <input
             type="text"
-            maxLength={4}
+            maxLength={6}
             className="px-2 py-1 text-center border-black rounded-md border-[0.3px]"
             onChange={(e) => setOtp(e.target.value)}
             placeholder="Enter OTP"
