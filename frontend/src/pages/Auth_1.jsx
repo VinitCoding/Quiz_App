@@ -13,6 +13,7 @@ import auth_bg from "../assets/auth_bg.svg";
 
 const Auth_1 = () => {
     const navigate = useNavigate()
+    const [button, setButton] = useState(true)
 
     const URL = 'http://127.0.0.1:8000/exam'
   // Initial Login credentials
@@ -41,6 +42,7 @@ const Auth_1 = () => {
                     })
                 }, 2000);
                 toast.success(`${response.data}`);
+                setButton(false)
             }, 1000);
         }
         // setTimeout(() => {
@@ -125,7 +127,8 @@ const Auth_1 = () => {
           <div className="flex items-center justify-center mt-1 gap-y-1">
             <button
               type="submit"
-              className="px-5 py-1.5 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400"
+              className="px-5 py-1.5 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400 disabled:bg-[#adadadad] disabled:cursor-not-allowed"
+              disabled={!button}
             >
               Send OTP
             </button>
