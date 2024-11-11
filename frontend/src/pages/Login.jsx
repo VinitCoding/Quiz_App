@@ -16,6 +16,7 @@ const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const navigate = useNavigate()
+  const URL = 'http://127.0.0.1:8000/exam'
   const handleForm = () => {
     navigate('/auth_1')
   };
@@ -29,14 +30,21 @@ const Login = () => {
   const signInFormik = useFormik({
     initialValues: LoginInitialValues,
     validationSchema: loginSchemas,
-    onSubmit: (values, action) => {
-      console.log(values.email);
-      toast.success("Login successfully");
-      localStorage.setItem("sign_up_user_email", values.email);
-      setTimeout(() => {
-        navigate("/candidate_dashboard");
-      }, 3000);
-      action.resetForm();
+    onSubmit: async(values, action) => {
+      try {
+        const response = await axios.post(`${URL}/login`, {
+          'email': values.email,
+          'password': values.password
+        })
+        if(!response){
+          toast.error('Login Failed')
+        }
+        toast.success('Login Successfully...')
+        action.resetForm();
+      } catch (error) {
+        console.error('Something went wrong in login page');
+        toast.error('Something went wrong')     
+      }
     },
   });
 

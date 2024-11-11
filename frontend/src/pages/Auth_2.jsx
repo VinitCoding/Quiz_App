@@ -18,6 +18,8 @@ const Auth_2 = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const URL = 'http://127.0.0.1:8000/exam'
+  
   // Initial Login credentials
   const SignUpInitialValues = {
     full_name: "",
@@ -32,33 +34,37 @@ const Auth_2 = () => {
     validationSchema: signUpSchemas,
     onSubmit: async (values, action) => {
       try {
-        // const response = await axios.post(`${URL}/send_otp`, {
-        //     "email": values.email,
-        // })
-        // if (response) {
-        //     console.log(response);
-        //     setTimeout(() => {
-        //         setTimeout(() => {
-        //             navigate('/otp_verify', {
-        //                 state: {
-        //                     data: {
-        //                        values
-        //                     }
-        //                 }
-        //             })
-        //         }, 2000);
-        //         toast.success(`${response.data}`);
-        //     }, 1000);
-        // }
+        const response = await axios.post(`${URL}/users`, {
+          "full_name": values.full_name,  
+          "email": values.email,
+          "mobile_no": values.mobile_number,
+          "password": values.password,
+          "confirm_password": values.confirm_password
+        })
+        if (response) {
+            console.log(response);
+            setTimeout(() => {
+                setTimeout(() => {
+                    navigate('/candidate_dashboard', {
+                        state: {
+                            data: {
+                               values
+                            }
+                        }
+                    })
+                }, 2000);
+                toast.success(`${response.data}`);
+            }, 1000);
+        }
 
         
-        setTimeout(() => {
-          setTimeout(() => {
-            navigate("/candidate_dashboard");
-          }, 2000);
-          toast.success("Registration Successfull..");
-          localStorage.setItem("sign_up_user_email", values.email);
-        }, 1000);
+        // setTimeout(() => {
+        //   setTimeout(() => {
+        //     navigate("/candidate_dashboard");
+        //   }, 2000);
+        //   toast.success("Registration Successfull..");
+        //   localStorage.setItem("sign_up_user_email", values.email);
+        // }, 1000);
         action.resetForm();
       } catch (error) {
         console.log(error);

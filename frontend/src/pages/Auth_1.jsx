@@ -13,6 +13,8 @@ import auth_bg from "../assets/auth_bg.svg";
 
 const Auth_1 = () => {
     const navigate = useNavigate()
+
+    const URL = 'http://127.0.0.1:8000/exam'
   // Initial Login credentials
   const OTPInitialValues = {
     full_name: "",
@@ -25,24 +27,24 @@ const Auth_1 = () => {
     validationSchema: otpSchemas,
     onSubmit: async (values, action) => {
       try {
-        // const response = await axios.post(`${URL}/send_otp`, {
-        //     "email": values.email,
-        // })
-        // if (response) {
-        //     console.log(response);
-        //     setTimeout(() => {
-        //         setTimeout(() => {
-        //             navigate('/otp_verify', {
-        //                 state: {
-        //                     data: {
-        //                        values
-        //                     }
-        //                 }
-        //             })
-        //         }, 2000);
-        //         toast.success(`${response.data}`);
-        //     }, 1000);
-        // }
+        const response = await axios.post(`${URL}/send_otp`, {
+            "email": values.email,
+        })
+        if (response) {
+            console.log(response);
+            setTimeout(() => {
+                setTimeout(() => {
+                    navigate('/otp_verify', {
+                        state: {
+                            data: {
+                               values
+                            }
+                        }
+                    })
+                }, 2000);
+                toast.success(`${response.data}`);
+            }, 1000);
+        }
         setTimeout(() => {
           setTimeout(() => {
             navigate("/otp_verify", {

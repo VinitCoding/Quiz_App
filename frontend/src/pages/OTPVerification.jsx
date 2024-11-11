@@ -5,15 +5,15 @@ import otp_quiz_logo from "../assets/OTP_Quiz_app_logo.svg";
 import email_otp from "../assets/email_otp_logo.svg";
 import footer_logo from "../assets/Footer_logo.svg";
 import otp_bg from "../assets/otp_bg.svg";
+import axios from "axios";
 const OTPVerification = () => {
   const location = useLocation();
   const { data } = location.state;
-
-  
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(10);
   const navigate = useNavigate();
+  const URL = 'http://127.0.0.1:8000/exam'
 
   const resendOTP = () => {
     console.log("Resend OTP");
@@ -25,6 +25,7 @@ const OTPVerification = () => {
   useEffect(() => {
     console.log('Data has been comes to OTP Verify Page',data);
   }, [])
+
   // Timer functions
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,10 +54,15 @@ const OTPVerification = () => {
   }, [seconds]); // Re-run this effects whenever the seconds is changed
 
   // Verify OTP
-  const verify_otp = () => {
-    if (otp === "123456") {
+  const verify_otp = async() => {
+    try {
+      const response = await axios.post(`${URL}/otp-verification`)
+    if(!response){
+      toast.error('OTP not send correctly by backend...')
+    }
+
+    if (otp === response.data) {
       toast.success("OTP verified");
-      console.log(otp);
       setOtp(" ");
       setMinutes(0);
       setSeconds(0);
@@ -69,6 +75,9 @@ const OTPVerification = () => {
       }, 3000);
     } else {
       toast.error("You entered wrong otp");
+    }
+    } catch (error) {
+      
     }
   };
 
