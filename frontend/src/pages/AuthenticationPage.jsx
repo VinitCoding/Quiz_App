@@ -42,37 +42,37 @@ const AuthenticationPage = () => {
     validationSchema: signUpSchemas,
     onSubmit: async (values, action) => {
       try {
-        const response = await axios.post(`${URL}/send_otp`, {
-            "email": values.email,
-        })
-        if (response) {
-            console.log(response);
-            setTimeout(() => {
-                setTimeout(() => {
-                    navigate('/otp_verify', {
-                        state: {
-                            data: {
-                               values
-                            }
-                        }
-                    })
-                }, 2000);
-                toast.success(`${response.data}`);
-            }, 1000);
-        }
-        // setTimeout(() => {
-        //   setTimeout(() => {
-        //     navigate("/otp_verify", {
-        //       state: {
-        //         data: {
-        //           values,
-        //         },
-        //       },
-        //     });
-        //   }, 2000);
-        //   toast.success("OTP sent Successful");
-        //   localStorage.setItem('sign_up_user_email', values.email)
-        // }, 1000);
+        // const response = await axios.post(`${URL}/send_otp`, {
+        //     "email": values.email,
+        // })
+        // if (response) {
+        //     console.log(response);
+        //     setTimeout(() => {
+        //         setTimeout(() => {
+        //             navigate('/otp_verify', {
+        //                 state: {
+        //                     data: {
+        //                        values
+        //                     }
+        //                 }
+        //             })
+        //         }, 2000);
+        //         toast.success(`${response.data}`);
+        //     }, 1000);
+        // }
+        setTimeout(() => {
+          setTimeout(() => {
+            navigate("/otp_verify", {
+              state: {
+                data: {
+                  values,
+                },
+              },
+            });
+          }, 2000);
+          toast.success("OTP sent Successful");
+          localStorage.setItem('sign_up_user_email', values.email)
+        }, 1000);
         setSignIn(false);
         action.resetForm();
       } catch (error) {
