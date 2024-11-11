@@ -10,8 +10,8 @@ const OTPVerification = () => {
   const location = useLocation();
   const { data } = location.state;
   const [otp, setOtp] = useState("");
-  const [minutes, setMinutes] = useState(5);
-  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(20);
   const navigate = useNavigate();
   const URL = 'http://127.0.0.1:8000/exam'
 
@@ -68,12 +68,8 @@ const OTPVerification = () => {
         'email': data.values.email,
         'user_otp': otp
       })
-    if(!response){
-      toast.error('OTP not send correctly by backend...')
-    }
-
-    if (otp === response.data) {
-      toast.success("OTP verified");
+    if(response.data.status == true){
+      toast.success(`${response.data.message}`)
       setOtp("");
       setMinutes(0);
       setSeconds(0);
@@ -84,10 +80,11 @@ const OTPVerification = () => {
           }
         });
       }, 3000);
-    } else {
-      toast.error("You entered wrong otp");
+    }else{
+      toast.error(`${response.data.message}`)
     }
     } catch (error) {
+      console.log('Error in OTP verification', error);
       
     }
   };
