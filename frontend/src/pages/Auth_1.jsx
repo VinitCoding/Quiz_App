@@ -28,6 +28,7 @@ const Auth_1 = () => {
     validationSchema: otpSchemas,
     onSubmit: async (values, action) => {
       try {
+        setButton(false)
         const response = await axios.get(`${URL}/send_otp?email=${values.email}`)
         if (response) {
             console.log(response);
@@ -42,7 +43,6 @@ const Auth_1 = () => {
                     })
                 }, 2000);
                 toast.success(`${response.data}`);
-                setButton(false)
             }, 1000);
         }
         // setTimeout(() => {
