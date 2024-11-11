@@ -11,7 +11,7 @@ const OTPVerification = () => {
   const { data } = location.state;
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(20);
+  const [seconds, setSeconds] = useState(10);
   const navigate = useNavigate();
   const URL = 'http://127.0.0.1:8000/exam'
 
@@ -22,8 +22,6 @@ const OTPVerification = () => {
       setSeconds(0);
       toast.success("OTP resend");
       console.log(response.data);
-      verify_otp()
-      action.resetForm();
     } catch (error) {
       console.log(error);
       toast.error;
@@ -149,7 +147,7 @@ const OTPVerification = () => {
         <div className="flex justify-center mt-3">
           <button
             className={`px-4 py-2 font-medium text-white rounded-sm bg-dark-blue w-fit disabled:bg-[#adadad] disabled:cursor-not-allowed`}
-            disabled={seconds === 0 || minutes === 0}
+            disabled={seconds === 0 && minutes === 0}
             onClick={verify_otp}
           >
             Verify OTP
