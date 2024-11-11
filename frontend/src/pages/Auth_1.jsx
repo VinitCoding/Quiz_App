@@ -27,9 +27,7 @@ const Auth_1 = () => {
     validationSchema: otpSchemas,
     onSubmit: async (values, action) => {
       try {
-        const response = await axios.get(`${URL}/send_otp`, {
-            "email": values.email,
-        })
+        const response = await axios.get(`${URL}/send_otp?email=${values.email}`)
         if (response) {
             console.log(response);
             setTimeout(() => {
