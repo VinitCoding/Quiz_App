@@ -65,7 +65,8 @@ const OTPVerification = () => {
   const verify_otp = async() => {
     try {
       const response = await axios.post(`${URL}/otp-verification`, {
-        'otp': otp
+        'email': data.values.email,
+        'user_otp': otp
       })
     if(!response){
       toast.error('OTP not send correctly by backend...')
