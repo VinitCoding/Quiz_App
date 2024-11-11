@@ -149,7 +149,7 @@ const OTPVerification = () => {
         <div className="flex justify-center mt-3">
           <button
             className={`px-4 py-2 font-medium text-white rounded-sm bg-dark-blue w-fit disabled:bg-[#adadad] disabled:cursor-not-allowed`}
-            disabled={seconds > 0 || minutes > 0}
+            disabled={seconds === 0 || minutes === 0}
             onClick={verify_otp}
           >
             Verify OTP
