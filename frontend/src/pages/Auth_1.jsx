@@ -27,7 +27,7 @@ const Auth_1 = () => {
     validationSchema: otpSchemas,
     onSubmit: async (values, action) => {
       try {
-        const response = await axios.post(`${URL}/send_otp`, {
+        const response = await axios.get(`${URL}/send_otp`, {
             "email": values.email,
         })
         if (response) {
@@ -129,7 +129,7 @@ const Auth_1 = () => {
               type="submit"
               className="px-5 py-1.5 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-400"
             >
-              Sent OTP
+              Send OTP
             </button>
           </div>
           {/* <OTPModal /> */}

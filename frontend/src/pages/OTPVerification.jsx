@@ -15,7 +15,12 @@ const OTPVerification = () => {
   const navigate = useNavigate();
   const URL = 'http://127.0.0.1:8000/exam'
 
-  const resendOTP = () => {
+  const resendOTP = async() => {
+    try {
+      const response = await axios.post(`${URL}/`)
+    } catch (error) {
+      
+    }
     console.log("Resend OTP");
     setMinutes(0);
     toast.success("OTP resend");
@@ -56,7 +61,9 @@ const OTPVerification = () => {
   // Verify OTP
   const verify_otp = async() => {
     try {
-      const response = await axios.post(`${URL}/otp-verification`)
+      const response = await axios.post(`${URL}/otp-verification`, {
+        'otp': otp
+      })
     if(!response){
       toast.error('OTP not send correctly by backend...')
     }
