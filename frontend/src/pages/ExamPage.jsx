@@ -21,7 +21,7 @@ const ExamPage = () => {
     navigate("/candidate_dashboard");
   };
   return (
-    <section className="w-screen h-screen bg-[#c9eafe]">
+    <section className="w-screen h-screen bg-[#E0EFFF]">
       {/* Nav */}
       <nav className="flex justify-between w-full p-3 bg-white border-b-2 gap-x-1">
         <div className="flex gap-x-2">
