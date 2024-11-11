@@ -18,10 +18,10 @@ import { useNavigate } from "react-router-dom";
 import footer_logo from '../assets/Footer_logo.svg'
 
 const Candi_Dashboard = () => {
-  const getUser = localStorage.getItem("sign_up_user_email");
+  const getUser = localStorage.getItem("login_user");
   const navigate = useNavigate()
   const handleLogout = () => {
-    localStorage.removeItem('sign_up_user_email')
+    localStorage.removeItem('login_user')
     navigate('/')
   }
   const navigateExamPage = () => {

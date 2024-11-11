@@ -41,20 +41,23 @@ const Auth_2 = () => {
           "password": values.password,
           "confirm_password": values.confirm_password
         })
-        if (response) {
-            console.log(response);
+        if (response.data.status == true) {
+            // console.log(response);
             setTimeout(() => {
                 setTimeout(() => {
-                    navigate('/candidate_dashboard', {
+                    navigate('/login', {
                         state: {
                             data: {
                                values
                             }
                         }
                     })
+                  action.resetForm();
                 }, 2000);
-                toast.success(`${response.data}`);
+              toast.success('Registration Successful...');
             }, 1000);
+        } else {
+          toast.error('Registration Failed')
         }
 
         
@@ -65,10 +68,10 @@ const Auth_2 = () => {
         //   toast.success("Registration Successfull..");
         //   localStorage.setItem("sign_up_user_email", values.email);
         // }, 1000);
-        action.resetForm();
+        
       } catch (error) {
         console.log(error);
-        toast.error;
+        toast.error('Something went wrong...');
       }
     },
   });
