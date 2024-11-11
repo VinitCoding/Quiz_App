@@ -1,8 +1,11 @@
 import * as Yup from "yup";
 
-export const signUpSchemas = Yup.object({
+export const otpSchemas = Yup.object({
   full_name: Yup.string().required("Full Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
+});
+
+export const signUpSchemas = Yup.object({
   mobile_number: Yup.string()
     .required("Mobile Number is required")
     .matches(/^\d{10}$/, "Phone number must be 10 digits "),

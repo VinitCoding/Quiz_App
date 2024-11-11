@@ -6,15 +6,10 @@ import email_otp from "../assets/email_otp_logo.svg";
 import footer_logo from "../assets/Footer_logo.svg";
 import otp_bg from "../assets/otp_bg.svg";
 const OTPVerification = () => {
-  // {
-  //     "full_name": "string",
-  //         "email": "string",
-  //             "password": "string",
-  //                 "confirm_password": "string",
-  //                     "mobile_no": 0
-  // }
   const location = useLocation();
   const { data } = location.state;
+
+  
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(10);
@@ -27,6 +22,9 @@ const OTPVerification = () => {
     setSeconds(15);
   };
 
+  useEffect(() => {
+    console.log('Data has been comes to OTP Verify Page',data);
+  }, [])
   // Timer functions
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,7 +61,11 @@ const OTPVerification = () => {
       setMinutes(0);
       setSeconds(0);
       setTimeout(() => {
-        navigate("/candidate_dashboard");
+        navigate("/auth_2", {
+          state: {
+            data: data
+          }
+        });
       }, 3000);
     } else {
       toast.error("You entered wrong otp");

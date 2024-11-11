@@ -10,7 +10,7 @@ import chistats_logo from "../assets/chistats_logo.svg";
 const LandingPage = () => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("/auth");
+    navigate("/login");
   };
   return (
     <section
