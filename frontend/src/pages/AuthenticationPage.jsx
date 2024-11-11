@@ -19,14 +19,10 @@ const AuthenticationPage = () => {
   const handleForm = () => {
     setSignIn(!signIn);
   };
-  // {
-  //     "full_name": "string",
-  //         "email": "string",
-  //             "password": "string",
-  //                 "confirm_password": "string",
-  //                     "mobile_no": 0
-  // }
-  // const URL = 'http://127.0.0.1:8000/exam'
+
+  const URL = 'http://127.0.0.1:8000/exam'
+
+
 
   const SignUpInitialValues = {
     full_name: "",
@@ -46,41 +42,37 @@ const AuthenticationPage = () => {
     validationSchema: signUpSchemas,
     onSubmit: async (values, action) => {
       try {
-        // const response = await axios.post(`${URL}/users`, {
-        //     "full_name": values.full_name,
-        //     "email": values.email,
-        //     "password": values.password,
-        //     "confirm_password": values.confirm_password,
-        //     "mobile_no": parseInt(values.mobile_number)
-        // })
-        // if (response) {
-        //     console.log(response);
-        //     setTimeout(() => {
-        //         setTimeout(() => {
-        //             navigate('/otp_verify', {
-        //                 state: {
-        //                     data: {
-        //                        values
-        //                     }
-        //                 }
-        //             })
-        //         }, 2000);
-        //         toast.success("OTP sent Successful");
-        //     }, 1000);
-        // }
-        setTimeout(() => {
-          setTimeout(() => {
-            navigate("/otp_verify", {
-              state: {
-                data: {
-                  values,
-                },
-              },
-            });
-          }, 2000);
-          toast.success("OTP sent Successful");
-          localStorage.setItem('sign_up_user_email', values.email)
-        }, 1000);
+        const response = await axios.post(`${URL}/send_otp`, {
+            "email": values.email,
+        })
+        if (response) {
+            console.log(response);
+            setTimeout(() => {
+                setTimeout(() => {
+                    navigate('/otp_verify', {
+                        state: {
+                            data: {
+                               values
+                            }
+                        }
+                    })
+                }, 2000);
+                toast.success(`${response.data}`);
+            }, 1000);
+        }
+        // setTimeout(() => {
+        //   setTimeout(() => {
+        //     navigate("/otp_verify", {
+        //       state: {
+        //         data: {
+        //           values,
+        //         },
+        //       },
+        //     });
+        //   }, 2000);
+        //   toast.success("OTP sent Successful");
+        //   localStorage.setItem('sign_up_user_email', values.email)
+        // }, 1000);
         setSignIn(false);
         action.resetForm();
       } catch (error) {
@@ -110,6 +102,19 @@ const AuthenticationPage = () => {
   useEffect(() => {
     console.log(errors);
   }, [errors]);
+
+  // const sendOTP = async() => {
+  //   try {
+  //     const response = await axios.post(`${URL}/send_otp`, {
+  //       'email': values.email
+  //     })
+  //     if (response) {
+  //       toast.success(`${response.data}`)
+  //     }
+  //   } catch (error) {
+      
+  //   }
+  // }
 
   return (
     <section className="w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-y-auto sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover " style={{ backgroundImage: `url(${auth_bg})`}}>
