@@ -10,8 +10,8 @@ const OTPVerification = () => {
   const location = useLocation();
   const { data } = location.state;
   const [otp, setOtp] = useState("");
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(10);
+  const [minutes, setMinutes] = useState(5);
+  const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
   const URL = 'http://127.0.0.1:8000/exam'
 
@@ -147,7 +147,8 @@ const OTPVerification = () => {
 
         <div className="flex justify-center mt-3">
           <button
-            className="px-4 py-2 font-medium text-white rounded-sm bg-dark-blue w-fit"
+            className={`px-4 py-2 font-medium text-white rounded-sm bg-dark-blue w-fit disabled:bg-[#adadad] disabled:cursor-not-allowed`}
+            disabled={seconds == 0 || minutes == 0}
             onClick={verify_otp}
           >
             Verify OTP

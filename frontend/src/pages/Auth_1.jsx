@@ -43,19 +43,19 @@ const Auth_1 = () => {
                 toast.success(`${response.data}`);
             }, 1000);
         }
-        setTimeout(() => {
-          setTimeout(() => {
-            navigate("/otp_verify", {
-              state: {
-                data: {
-                  values,
-                },
-              },
-            });
-          }, 2000);
-          toast.success("OTP sent Successful");
-          //   localStorage.setItem("sign_up_user_email", values.email);
-        }, 1000);
+        // setTimeout(() => {
+        //   setTimeout(() => {
+        //     navigate("/otp_verify", {
+        //       state: {
+        //         data: {
+        //           values,
+        //         },
+        //       },
+        //     });
+        //   }, 2000);
+        //   toast.success("OTP sent Successful");
+        //   //   localStorage.setItem("sign_up_user_email", values.email);
+        // }, 1000);
         action.resetForm();
       } catch (error) {
         console.log(error);
