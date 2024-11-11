@@ -17,14 +17,17 @@ const OTPVerification = () => {
 
   const resendOTP = async() => {
     try {
-      const response = await axios.post(`${URL}/`)
+      const response = await axios.get(`${URL}/send_otp?email=${data.values.email}`)
+      setMinutes(5);
+      setSeconds(0);
+      toast.success("OTP resend");
+      console.log(response.data);
+      verify_otp()
+      action.resetForm();
     } catch (error) {
-      
+      console.log(error);
+      toast.error;
     }
-    console.log("Resend OTP");
-    setMinutes(0);
-    toast.success("OTP resend");
-    setSeconds(15);
   };
 
   useEffect(() => {
@@ -70,7 +73,7 @@ const OTPVerification = () => {
 
     if (otp === response.data) {
       toast.success("OTP verified");
-      setOtp(" ");
+      setOtp("");
       setMinutes(0);
       setSeconds(0);
       setTimeout(() => {
