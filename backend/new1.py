@@ -13,6 +13,7 @@ import smtplib
 from email.message import EmailMessage
 from dotenv import load_dotenv
 import os
+import uvicorn
 
 app = FastAPI()
 router = APIRouter()
@@ -140,6 +141,7 @@ def check_otp(email: str, user_otp: str, db: Session) -> dict:
 
 @router.post("/users/", response_model=dict)
 def create_user(user_details:UserDetails, db: Session = Depends(get_db)):
+    response = {'status':False}
     full_name = user_details.full_name
     email = user_details.email
     password = user_details.password
@@ -159,8 +161,15 @@ def create_user(user_details:UserDetails, db: Session = Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    response["status"] = True
+    response['full_name'] =db_user.full_name
+    response['email'] = db_user.email
     
-    return {"id": db_user.id, "full_name": db_user.full_name, "email": db_user.email}
+    return response
+    # return {"id": db_user.id, "full_name": db_user.full_name, "email": db_user.email}
+
+    
 
 
     
@@ -213,6 +222,7 @@ def delete_user(email: str, db: Session = Depends(get_db)):
     db.commit()
     return {"message": f"User with email {email} has been deleted successfully."}
 
+
 @router.get('/send_otp')
 def send_otp(email: str, db: Session = Depends(get_db)):
     otp = one_time_password(to_mail=email, db=db)
@@ -221,12 +231,21 @@ def send_otp(email: str, db: Session = Depends(get_db)):
 
 @router.post('/otp-verification')
 def otp_verification(verification:VerifyOTP, db: Session = Depends(get_db)):
+    response = {'status':False}
     email = verification.email
     user_otp = verification.user_otp
 
     print('user_otp : ', user_otp)
     access = check_otp(email=email, user_otp=user_otp, db=db)
     if access['status']:
-        return 'OTP Verification Successful'
+        response["status"] = True
+        response['message'] = 'OTP Verification Successful'
+        # return 
     else:
-        return 'OTP Verification Failed'
+        response["status"] = False
+        response['message'] = 'OTP Verification Failed'
+    
+    return response
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8001, reload=True)
