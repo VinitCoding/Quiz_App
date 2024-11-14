@@ -41,6 +41,7 @@ const Login = () => {
         }
         toast.success('Login Successfully...')
         localStorage.setItem('login_user', values.email)
+        navigate('/candidate_dashboard')
         action.resetForm();
       } catch (error) {
         console.error('Something went wrong in login page');
