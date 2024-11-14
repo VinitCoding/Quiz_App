@@ -32,6 +32,8 @@ const Auth_1 = () => {
         const response = await axios.get(`${URL}/send_otp?email=${values.email}`)
         if (response) {
             console.log(response);
+            // localStorage.setItem('registred_username', values.full_name)
+            // localStorage.setItem('registred_email', values.email)
             setTimeout(() => {
                 setTimeout(() => {
                     navigate('/otp_verify', {

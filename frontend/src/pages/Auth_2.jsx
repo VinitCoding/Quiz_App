@@ -35,8 +35,8 @@ const Auth_2 = () => {
     onSubmit: async (values, action) => {
       try {
         const response = await axios.post(`${URL}/users`, {
-          "full_name": values.full_name,  
-          "email": values.email,
+          "full_name": data.values.full_name,  
+          "email": data.values.email,
           "mobile_no": values.mobile_number,
           "password": values.password,
           "confirm_password": values.confirm_password
