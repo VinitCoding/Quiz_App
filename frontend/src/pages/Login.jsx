@@ -40,6 +40,7 @@ const Login = () => {
           toast.error('Login Failed')
         }
         toast.success('Login Successfully...')
+        localStorage.setItem('login_user', values.email)
         action.resetForm();
       } catch (error) {
         console.error('Something went wrong in login page');

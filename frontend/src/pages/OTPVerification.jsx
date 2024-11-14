@@ -10,8 +10,8 @@ const OTPVerification = () => {
   const location = useLocation();
   const { data } = location.state;
   const [otp, setOtp] = useState("");
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(10);
+  const [minutes, setMinutes] = useState(5);
+  const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
   const URL = 'http://127.0.0.1:8000/exam'
 
