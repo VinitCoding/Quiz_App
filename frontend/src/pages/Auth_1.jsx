@@ -136,7 +136,7 @@ const Auth_1 = () => {
             </button>
           </div>
           {/* <OTPModal /> */}
-          <p className="flex justify-center mt-3">
+          <p className="flex justify-center mt-3 gap-x-2">
             Already have account?{" "}
             <span
               className="font-medium cursor-pointer text-dark-blue hover:underline"

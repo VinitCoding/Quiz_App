@@ -15,10 +15,10 @@ import auth_bg from "../assets/auth_bg.svg";
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const navigate = useNavigate()
-  const URL = 'http://127.0.0.1:8000/exam'
+  const navigate = useNavigate();
+  const URL = "http://127.0.0.1:8000/exam";
   const handleForm = () => {
-    navigate('/auth_1')
+    navigate("/auth_1");
   };
   // Initial Login credentials
   const LoginInitialValues = {
@@ -30,22 +30,28 @@ const Login = () => {
   const signInFormik = useFormik({
     initialValues: LoginInitialValues,
     validationSchema: loginSchemas,
-    onSubmit: async(values, action) => {
+    onSubmit: async (values, action) => {
       try {
         const response = await axios.post(`${URL}/login`, {
-          'email': values.email,
-          'password': values.password
-        })
-        if(!response){
-          toast.error('Login Failed')
+          email: values.email,
+          password: values.password,
+        });
+        console.log(response.data);
+        
+        if (!response) {
+          toast.error("Something went wrong");
+          console.error(response);
         }
-        toast.success('Login Successfully...')
-        localStorage.setItem('login_user', values.email)
-        navigate('/candidate_dashboard')
+        setTimeout(() => {
+          navigate("/candidate_dashboard");
+        }, 2000);
+        toast.success('Login Successfully')
+        sessionStorage.setItem("login_user", values.email);
+
         action.resetForm();
       } catch (error) {
-        console.error('Something went wrong in login page');
-        toast.error('Something went wrong')     
+        console.error("Something went wrong in login page");
+        toast.error("Login failed");
       }
     },
   });
