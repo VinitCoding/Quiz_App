@@ -1,15 +1,15 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
-import { signUpSchemas } from "../schemas/auth_schema.js";
+import { signUpSchemas } from "../../schemas/auth_schema.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
 import axios from "axios";
-import auth_bg from "../assets/auth_bg.svg";
+import auth_bg from "../../assets/auth_bg.svg";
 
 const Auth_2 = () => {
   const location = useLocation();

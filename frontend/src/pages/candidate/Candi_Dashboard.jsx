@@ -1,9 +1,9 @@
 import React from "react";
-import logo from "../assets/logo.svg";
-import bg_img from "../assets/candidate_bg.svg";
+import logo from "../../assets/logo.svg";
+import bg_img from "../../assets/candidate_bg.svg";
 // import bg_circle from '../assets/bg_circle.svg'
 import { IoCalendarOutline } from "react-icons/io5";
-import status_logo from "../assets/status_logo.svg";
+import status_logo from "../../assets/status_logo.svg";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import {
   Divider,
@@ -15,13 +15,13 @@ import {
 } from "@nextui-org/react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import footer_logo from '../assets/Footer_logo.svg'
+import footer_logo from '../../assets/Footer_logo.svg'
 
 const Candi_Dashboard = () => {
-  const getUser = localStorage.getItem("login_user");
+  const getUser = sessionStorage.getItem("login_user");
   const navigate = useNavigate()
   const handleLogout = () => {
-    localStorage.removeItem('login_user')
+    sessionStorage.removeItem('login_user')
     navigate('/')
   }
   const navigateExamPage = () => {

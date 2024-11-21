@@ -15,7 +15,9 @@ expose_headers=["*"],
 
 from new1 import router as authentication_router
 from send_questions import router as questions_router
+from submit_questions import router as submition_router
 
 
 app.include_router(authentication_router, prefix = '/exam', tags = ['Chistats Internship Exams'])
 app.include_router(questions_router, prefix = '/exam', tags = ['Chistats Internship Exams'])
+app.include_router(submition_router, prefix = '/exam', tags = ['Chistats Internship Exams'])

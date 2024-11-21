@@ -22,3 +22,5 @@ async def get_quiz():
         return JSONResponse(status_code=404, content={"message": "Questions file not found."})
     except json.JSONDecodeError:
         return JSONResponse(status_code=500, content={"message": "Error decoding JSON."})
+    
+
