@@ -8,25 +8,24 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import chistats_logo from "../assets/chistats_logo.svg";
+import chistats_logo from "../../assets/chistats_logo.svg";
 
-const Testing_2 = () => {
+const ExamPage = () => {
   const getUser = sessionStorage.getItem("login_user");
   const [questions, setQuestions] = useState([]);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [totalQuestionNumber, setTotalQuestionNumber] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState({});
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [submitQuiz, setSubmitQuiz] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState({});
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(60);
+  const [minutes, setMinutes] = useState(2);
+  const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate("/");
   const handleLogout = () => {
     navigate("/candidate_dashboard");
@@ -200,7 +199,6 @@ const Testing_2 = () => {
       return total + category.questions.length;
     }, 0);
   };
-
   return (
     <section className="w-screen h-screen bg-[#E0EFFF] overflow-y-auto">
       <Toaster />
@@ -404,4 +402,4 @@ const Testing_2 = () => {
   );
 };
 
-export default Testing_2;
+export default ExamPage;

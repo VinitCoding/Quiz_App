@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import otp_quiz_logo from "../assets/OTP_Quiz_app_logo.svg";
-import email_otp from "../assets/email_otp_logo.svg";
-import footer_logo from "../assets/Footer_logo.svg";
-import otp_bg from "../assets/otp_bg.svg";
+import otp_quiz_logo from "../../assets/OTP_Quiz_app_logo.svg";
+import email_otp from "../../assets/email_otp_logo.svg";
+import footer_logo from "../../assets/Footer_logo.svg";
+import otp_bg from "../../assets/otp_bg.svg";
 import axios from "axios";
 const OTPVerification = () => {
   const location = useLocation();

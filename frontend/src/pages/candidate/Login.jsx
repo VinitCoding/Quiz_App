@@ -1,16 +1,16 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import laptop_img from "../assets/laptop_bg.svg";
-import logo from "../assets/logo.svg";
+import laptop_img from "../../assets/laptop_bg.svg";
+import logo from "../../assets/logo.svg";
 import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
-import { loginSchemas } from "../schemas/auth_schema.js";
+import { loginSchemas } from "../../schemas/auth_schema.js";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { BiShow } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
 import axios from "axios";
-import auth_bg from "../assets/auth_bg.svg";
+import auth_bg from "../../assets/auth_bg.svg";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);

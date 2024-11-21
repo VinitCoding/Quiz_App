@@ -1,11 +1,11 @@
 import React from "react";
 // import bg_img from "../assets/bg_rectangle.svg";
-import bg_img from "../assets/Landing_page.svg";
-import underline from "../assets/underline.svg";
-import online_test from "../assets/online_test_bg.svg";
+import bg_img from "../../assets/Landing_page.svg";
+import underline from "../../assets/underline.svg";
+import online_test from "../../assets/online_test_bg.svg";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
-import chistats_logo from "../assets/chistats_logo.svg";
+import logo from "../../assets/logo.svg";
+import chistats_logo from "../../assets/chistats_logo.svg";
 
 const LandingPage = () => {
   const navigate = useNavigate();
