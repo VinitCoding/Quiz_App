@@ -24,7 +24,7 @@ const ExamPage = () => {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [submitQuiz, setSubmitQuiz] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState({});
-  const [minutes, setMinutes] = useState(2);
+  const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate("/");
   const handleLogout = () => {
@@ -246,7 +246,8 @@ const ExamPage = () => {
           <img src={chistats_logo} alt="" className="w-[64%]" />
         </div>
       </nav>
-
+      
+      {/* Main Body */}
       <div className="flex ">
         {/* Left Side */}
         <div className="h-[91vh] bg-gray-50 w-[19vw] flex flex-col">
@@ -288,13 +289,13 @@ const ExamPage = () => {
 
           <Divider className="my-6" />
           {/* Navigation Buttons */}
-          <div className="flex justify-center w-full mt-6 gap-x-10">
+          <div className="flex flex-col items-center justify-center w-full gap-4 px-6 mt-6">
             <button
               onClick={handlePrevious}
               disabled={
                 currentCategoryIndex === 0 && currentQuestionIndex === 0
               }
-              className={`bg-[#CAB123] px-4 py-1.5 font-medium text-white rounded-md ${
+              className={`bg-[#CAB123] px-8 py-1.5 font-medium text-white rounded-md w-fit ${
                 currentCategoryIndex === 0 && currentQuestionIndex === 0
                   ? "opacity-50 cursor-not-allowed"
                   : ""
@@ -305,7 +306,7 @@ const ExamPage = () => {
             {isLastQuestion() ? (
               <button
                 onClick={getReport}
-                className="bg-[#3B9F3B] px-6 py-1.5 font-medium text-white rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="bg-[#3B9F3B] px-10 py-1.5 font-medium text-white rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed w-fit"
                 disabled={submitQuiz}
               >
                 Submit
@@ -313,7 +314,7 @@ const ExamPage = () => {
             ) : (
               <button
                 onClick={handleNext}
-                className="bg-[#3B9F3B] px-6 py-1.5 font-medium text-white rounded-md"
+                className="bg-[#3B9F3B] px-12 py-1.5 font-medium text-white rounded-md w-fit"
               >
                 Next
               </button>
