@@ -69,5 +69,5 @@ def submit_questions(data: QuestionSubmission, db: Session = Depends(get_db)):
     else:
         zone = "red zone"
 
-    # return {"results": results, "percentage": percentage, "zone": zone}
-    return {"zone": zone}
+    return {"results": results, "percentage": percentage, "zone": zone}
+    # return {"zone": zone}
