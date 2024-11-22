@@ -138,7 +138,7 @@ const ExamPage = () => {
           questionIndex: currentQuestionIndex,
           selectedOption: optionKey,
           question: currentQuestion.question,
-          answer: currentQuestion.options[optionKey],
+          answer: optionKey,
           type: currentQuestion.type,
         },
       },
@@ -154,6 +154,9 @@ const ExamPage = () => {
     try {
       const response = await axios.post(`${URL}/submit`, {
         'category_info': selectedAnswer
+        // {
+        //   'category_info' : selectedAnswer
+        // }
       })
 
       if(!response){
@@ -165,6 +168,7 @@ const ExamPage = () => {
         navigate("/report", {state: {data : response.data.zone}});
       }, 3000);
       toast.success("Quiz submitted successfully...");
+      sessionStorage.setItem('quiz_submitted', true)
       console.log(selectedAnswer);
       setSubmitQuiz(true);
     }, 500);
