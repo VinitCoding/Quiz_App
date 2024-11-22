@@ -126,31 +126,7 @@ const ExamPage = () => {
         questions[currentCategoryIndex].questions.length - 1
     );
   };
-
-  // Modify the handleOptionSelect function to track answered questions
-  // const handleOptionSelect = (optionIndex) => {
-  //   const categoryName = currentCategory.name; // Get current category name
-
-  //   setSelectedAnswer({
-  //     ...selectedAnswer,
-  //     [categoryName]: {
-  //       ...selectedAnswer[categoryName], // Preserve existing answers in this category
-  //       [`question${currentQuestionIndex + 1}`]: {
-  //         questionIndex: currentQuestionIndex,
-  //         selectedOption: optionIndex,
-  //         question: currentQuestion.question,
-  //         answer: currentQuestion.options[optionIndex],
-  //         type: currentQuestion.type,
-  //       },
-  //     },
-  //   });
-
-  //   // Track answered questions
-  //   setAnsweredQuestions({
-  //     ...answeredQuestions,
-  //     [`${currentCategoryIndex}-${currentQuestionIndex}`]: true,
-  //   });
-  // };
+  
   const handleOptionSelect = (optionKey) => {
     const categoryName = currentCategory.name;
 
@@ -174,15 +150,31 @@ const ExamPage = () => {
     });
   };
 
-  const getReport = () => {
-    setTimeout(() => {
+  const getReport = async() => {
+    try {
+      const response = await axios.post(`${URL}/submit`, {
+        'category_info': selectedAnswer
+      })
+
+      if(!response){
+        toast.error('Something went wrong')
+      }
+
       setTimeout(() => {
-        navigate("/report");
+      setTimeout(() => {
+        navigate("/report", {state: {data : response.data.zone}});
       }, 3000);
       toast.success("Quiz submitted successfully...");
       console.log(selectedAnswer);
       setSubmitQuiz(true);
     }, 500);
+
+      console.log(response.data);
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   const handleQuestionSelect = (categoryIndex, questionIndex) => {
@@ -217,13 +209,9 @@ const ExamPage = () => {
               </button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
-              <DropdownItem>
+            <DropdownItem>
                 <User
-                  name="Jane Doe"
-                  description={`${getUser}`}
-                  avatarProps={{
-                    src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-                  }}
+                  name={`${getUser}`}
                 />
               </DropdownItem>
               <DropdownItem>
