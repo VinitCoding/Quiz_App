@@ -151,23 +151,23 @@ const ExamPage = () => {
   //     [`${currentCategoryIndex}-${currentQuestionIndex}`]: true,
   //   });
   // };
-  const handleOptionSelect = (optionIndex) => {
+  const handleOptionSelect = (optionKey) => {
     const categoryName = currentCategory.name;
-  
+
     setSelectedAnswer({
       ...selectedAnswer,
       [categoryName]: {
         ...selectedAnswer[categoryName],
-        [`question${currentQuestionIndex}`]: { // Remove the + 1
+        [`question${currentQuestionIndex}`]: {
           questionIndex: currentQuestionIndex,
-          selectedOption: optionIndex,
+          selectedOption: optionKey,
           question: currentQuestion.question,
-          answer: currentQuestion.options[optionIndex],
+          answer: currentQuestion.options[optionKey],
           type: currentQuestion.type,
         },
       },
     });
-  
+
     setAnsweredQuestions({
       ...answeredQuestions,
       [`${currentCategoryIndex}-${currentQuestionIndex}`]: true,
@@ -246,7 +246,7 @@ const ExamPage = () => {
           <img src={chistats_logo} alt="" className="w-[64%]" />
         </div>
       </nav>
-      
+
       {/* Main Body */}
       <div className="flex ">
         {/* Left Side */}
@@ -326,12 +326,18 @@ const ExamPage = () => {
           {/* Question and Timer */}
           <div className="flex justify-between w-full px-3 pt-4">
             <p className="bg-dark-blue text-white px-3 py-2.5 w-fit rounded-md font-medium">
-              Questions <span className="font-extrabold">{totalQuestionNumber} / {getTotalQuestions()}</span>
+              Questions{" "}
+              <span className="font-extrabold">
+                {totalQuestionNumber} / {getTotalQuestions()}
+              </span>
             </p>
 
             <p className="bg-dark-blue text-white px-3 py-2.5 w-fit rounded-md font-medium">
-              Time Remaining - <span className="font-extrabold">{minutes < 10 ? ` 0${minutes}` : minutes}:
-              {seconds < 10 ? `0${seconds}` : seconds}</span>
+              Time Remaining -{" "}
+              <span className="font-extrabold">
+                {minutes < 10 ? ` 0${minutes}` : minutes}:
+                {seconds < 10 ? `0${seconds}` : seconds}
+              </span>
             </p>
           </div>
           {/* Main Content */}
@@ -341,26 +347,33 @@ const ExamPage = () => {
                 <p className="text-lg font-semibold">
                   Q.{totalQuestionNumber} {currentQuestion.question}
                 </p>
+                {/* For text based questions */}
                 <ol className="flex flex-col mt-3 list-inside gap-y-5">
-                  {currentQuestion.options.map((option, optionIndex) => {
-                    const categoryName = currentCategory.name;
-                    const isSelected =
-                      selectedAnswer[categoryName]?.[
-                        `question${currentQuestionIndex}`
-                      ]?.selectedOption === optionIndex;
+                  {Object.entries(currentQuestion.options).map(
+                    ([key, value]) => {
+                      const categoryName = currentCategory.name;
+                      const isSelected =
+                        selectedAnswer[categoryName]?.[
+                          `question${currentQuestionIndex}`
+                        ]?.selectedOption === key;
 
-                    return (
-                      <li
-                        key={`option-${optionIndex}`}
-                        onClick={() => handleOptionSelect(optionIndex)}
-                        className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
-                          ${isSelected ? "bg-green-600 text-white font-semibold" : "hover:bg-gray-100"}
-                          transition-colors duration-200`}
-                      >
-                        {option}
-                      </li>
-                    );
-                  })}
+                      return (
+                        <li
+                          key={`option-${key}`}
+                          onClick={() => handleOptionSelect(key)}
+                          className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
+                                      ${
+                                        isSelected
+                                          ? "bg-green-600 text-white font-semibold"
+                                          : "hover:bg-gray-100"
+                                      }
+                                      transition-colors duration-200`}
+                        >
+                          {key}. {value}
+                        </li>
+                      );
+                    }
+                  )}
                 </ol>
               </div>
             ) : (
@@ -373,26 +386,33 @@ const ExamPage = () => {
                     className="object-contain w-full h-auto"
                   />
                 </div>
+                {/* For image based questions - same change */}
                 <ol className="flex flex-col mt-3 list-inside gap-y-5">
-                  {currentQuestion.options.map((option, optionIndex) => {
-                    const categoryName = currentCategory.name;
-                    const isSelected =
-                      selectedAnswer[categoryName]?.[
-                        `question${currentQuestionIndex}`
-                      ]?.selectedOption === optionIndex;
+                  {Object.entries(currentQuestion.options).map(
+                    ([key, value]) => {
+                      const categoryName = currentCategory.name;
+                      const isSelected =
+                        selectedAnswer[categoryName]?.[
+                          `question${currentQuestionIndex}`
+                        ]?.selectedOption === key;
 
-                    return (
-                      <li
-                        key={`option-${optionIndex}`}
-                        onClick={() => handleOptionSelect(optionIndex)}
-                        className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
-                          ${isSelected ? "bg-green-600 text-white font-semibold" : "hover:bg-gray-100"}
-                          transition-colors duration-200`}
-                      >
-                        {option}
-                      </li>
-                    );
-                  })}
+                      return (
+                        <li
+                          key={`option-${key}`}
+                          onClick={() => handleOptionSelect(key)}
+                          className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
+                                      ${
+                                        isSelected
+                                          ? "bg-green-600 text-white font-semibold"
+                                          : "hover:bg-gray-100"
+                                      }
+                                      transition-colors duration-200`}
+                        >
+                          {key}. {value}
+                        </li>
+                      );
+                    }
+                  )}
                 </ol>
               </div>
             )}
