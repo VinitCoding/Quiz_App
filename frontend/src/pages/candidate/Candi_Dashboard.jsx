@@ -16,6 +16,7 @@ import {
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import footer_logo from '../../assets/Footer_logo.svg'
+import chistats_logo from "../../assets/chistats_logo.svg";
 
 const Candi_Dashboard = () => {
   const getUser = sessionStorage.getItem("login_user");
@@ -37,38 +38,42 @@ const Candi_Dashboard = () => {
           <h2 className="text-2xl font-bold">Quizly</h2>
         </div>
 
-        <Dropdown>
-          <DropdownTrigger className="">
-            <button>
-              <FaUser />
-            </button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
-            <DropdownItem>
-              <User
-                name="Jane Doe"
-                description={`${getUser}`}
-                avatarProps={{
-                  src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-                }}
-              />
-            </DropdownItem>
-            <DropdownItem>
-            <Divider />
-            </DropdownItem>
-            <DropdownItem
-              key="delete"
-              className="text-danger"
-              color="danger"
-              onClick={handleLogout}
-            >
-              <p className="flex items-center gap-x-2">
-                <RiLogoutBoxRLine className="text-lg"/>
-                <span>LogOut</span>
-              </p>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <div className="flex justify-between w-fit">
+          <Dropdown>
+            <DropdownTrigger className="">
+              <button className="p-2 bg-gray-200 rounded-full">
+                <FaUser />
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions">
+              <DropdownItem>
+                <User
+                  name="Jane Doe"
+                  description={`${getUser}`}
+                  avatarProps={{
+                    src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                  }}
+                />
+              </DropdownItem>
+              <DropdownItem>
+                <Divider />
+              </DropdownItem>
+              <DropdownItem
+                key="delete"
+                className="text-danger"
+                color="danger"
+                onClick={handleLogout}
+              >
+                <p className="flex items-center gap-x-2">
+                  <RiLogoutBoxRLine className="text-lg" />
+                  <span>Logout</span>
+                </p>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <img src={chistats_logo} alt="" className="w-[64%]" />
+        </div>
       </nav>
 
       {/* Dashboard */}

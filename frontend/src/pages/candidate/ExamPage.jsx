@@ -24,7 +24,7 @@ const ExamPage = () => {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [submitQuiz, setSubmitQuiz] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState({});
-  const [minutes, setMinutes] = useState(2);
+  const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate("/");
   const handleLogout = () => {
@@ -151,23 +151,23 @@ const ExamPage = () => {
   //     [`${currentCategoryIndex}-${currentQuestionIndex}`]: true,
   //   });
   // };
-  const handleOptionSelect = (optionIndex) => {
+  const handleOptionSelect = (optionKey) => {
     const categoryName = currentCategory.name;
-  
+
     setSelectedAnswer({
       ...selectedAnswer,
       [categoryName]: {
         ...selectedAnswer[categoryName],
-        [`question${currentQuestionIndex}`]: { // Remove the + 1
+        [`question${currentQuestionIndex}`]: {
           questionIndex: currentQuestionIndex,
-          selectedOption: optionIndex,
+          selectedOption: optionKey,
           question: currentQuestion.question,
-          answer: currentQuestion.options[optionIndex],
+          answer: currentQuestion.options[optionKey],
           type: currentQuestion.type,
         },
       },
     });
-  
+
     setAnsweredQuestions({
       ...answeredQuestions,
       [`${currentCategoryIndex}-${currentQuestionIndex}`]: true,
@@ -247,6 +247,7 @@ const ExamPage = () => {
         </div>
       </nav>
 
+      {/* Main Body */}
       <div className="flex ">
         {/* Left Side */}
         <div className="h-[91vh] bg-gray-50 w-[19vw] flex flex-col">
@@ -288,13 +289,13 @@ const ExamPage = () => {
 
           <Divider className="my-6" />
           {/* Navigation Buttons */}
-          <div className="flex justify-center w-full mt-6 gap-x-10">
+          <div className="flex flex-col items-center justify-center w-full gap-4 px-6 mt-6">
             <button
               onClick={handlePrevious}
               disabled={
                 currentCategoryIndex === 0 && currentQuestionIndex === 0
               }
-              className={`bg-[#CAB123] px-4 py-1.5 font-medium text-white rounded-md ${
+              className={`bg-[#CAB123] px-8 py-1.5 font-medium text-white rounded-md w-fit ${
                 currentCategoryIndex === 0 && currentQuestionIndex === 0
                   ? "opacity-50 cursor-not-allowed"
                   : ""
@@ -305,7 +306,7 @@ const ExamPage = () => {
             {isLastQuestion() ? (
               <button
                 onClick={getReport}
-                className="bg-[#3B9F3B] px-6 py-1.5 font-medium text-white rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="bg-[#3B9F3B] px-10 py-1.5 font-medium text-white rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed w-fit"
                 disabled={submitQuiz}
               >
                 Submit
@@ -313,7 +314,7 @@ const ExamPage = () => {
             ) : (
               <button
                 onClick={handleNext}
-                className="bg-[#3B9F3B] px-6 py-1.5 font-medium text-white rounded-md"
+                className="bg-[#3B9F3B] px-12 py-1.5 font-medium text-white rounded-md w-fit"
               >
                 Next
               </button>
@@ -325,12 +326,18 @@ const ExamPage = () => {
           {/* Question and Timer */}
           <div className="flex justify-between w-full px-3 pt-4">
             <p className="bg-dark-blue text-white px-3 py-2.5 w-fit rounded-md font-medium">
-              Questions <span className="font-extrabold">{totalQuestionNumber} / {getTotalQuestions()}</span>
+              Questions{" "}
+              <span className="font-extrabold">
+                {totalQuestionNumber} / {getTotalQuestions()}
+              </span>
             </p>
 
             <p className="bg-dark-blue text-white px-3 py-2.5 w-fit rounded-md font-medium">
-              Time Remaining - <span className="font-extrabold">{minutes < 10 ? ` 0${minutes}` : minutes}:
-              {seconds < 10 ? `0${seconds}` : seconds}</span>
+              Time Remaining -{" "}
+              <span className="font-extrabold">
+                {minutes < 10 ? ` 0${minutes}` : minutes}:
+                {seconds < 10 ? `0${seconds}` : seconds}
+              </span>
             </p>
           </div>
           {/* Main Content */}
@@ -340,26 +347,33 @@ const ExamPage = () => {
                 <p className="text-lg font-semibold">
                   Q.{totalQuestionNumber} {currentQuestion.question}
                 </p>
+                {/* For text based questions */}
                 <ol className="flex flex-col mt-3 list-inside gap-y-5">
-                  {currentQuestion.options.map((option, optionIndex) => {
-                    const categoryName = currentCategory.name;
-                    const isSelected =
-                      selectedAnswer[categoryName]?.[
-                        `question${currentQuestionIndex}`
-                      ]?.selectedOption === optionIndex;
+                  {Object.entries(currentQuestion.options).map(
+                    ([key, value]) => {
+                      const categoryName = currentCategory.name;
+                      const isSelected =
+                        selectedAnswer[categoryName]?.[
+                          `question${currentQuestionIndex}`
+                        ]?.selectedOption === key;
 
-                    return (
-                      <li
-                        key={`option-${optionIndex}`}
-                        onClick={() => handleOptionSelect(optionIndex)}
-                        className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
-                          ${isSelected ? "bg-green-600 text-white font-semibold" : "hover:bg-gray-100"}
-                          transition-colors duration-200`}
-                      >
-                        {option}
-                      </li>
-                    );
-                  })}
+                      return (
+                        <li
+                          key={`option-${key}`}
+                          onClick={() => handleOptionSelect(key)}
+                          className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
+                                      ${
+                                        isSelected
+                                          ? "bg-green-600 text-white font-semibold"
+                                          : "hover:bg-gray-100"
+                                      }
+                                      transition-colors duration-200`}
+                        >
+                          {key}. {value}
+                        </li>
+                      );
+                    }
+                  )}
                 </ol>
               </div>
             ) : (
@@ -372,26 +386,33 @@ const ExamPage = () => {
                     className="object-contain w-full h-auto"
                   />
                 </div>
+                {/* For image based questions - same change */}
                 <ol className="flex flex-col mt-3 list-inside gap-y-5">
-                  {currentQuestion.options.map((option, optionIndex) => {
-                    const categoryName = currentCategory.name;
-                    const isSelected =
-                      selectedAnswer[categoryName]?.[
-                        `question${currentQuestionIndex}`
-                      ]?.selectedOption === optionIndex;
+                  {Object.entries(currentQuestion.options).map(
+                    ([key, value]) => {
+                      const categoryName = currentCategory.name;
+                      const isSelected =
+                        selectedAnswer[categoryName]?.[
+                          `question${currentQuestionIndex}`
+                        ]?.selectedOption === key;
 
-                    return (
-                      <li
-                        key={`option-${optionIndex}`}
-                        onClick={() => handleOptionSelect(optionIndex)}
-                        className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
-                          ${isSelected ? "bg-green-600 text-white font-semibold" : "hover:bg-gray-100"}
-                          transition-colors duration-200`}
-                      >
-                        {option}
-                      </li>
-                    );
-                  })}
+                      return (
+                        <li
+                          key={`option-${key}`}
+                          onClick={() => handleOptionSelect(key)}
+                          className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
+                                      ${
+                                        isSelected
+                                          ? "bg-green-600 text-white font-semibold"
+                                          : "hover:bg-gray-100"
+                                      }
+                                      transition-colors duration-200`}
+                        >
+                          {key}. {value}
+                        </li>
+                      );
+                    }
+                  )}
                 </ol>
               </div>
             )}
