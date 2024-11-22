@@ -60,7 +60,7 @@ const Report = () => {
               >
                 <p className="flex items-center gap-x-2">
                   <RiLogoutBoxRLine className="text-lg" />
-                  <span>Go Back</span>
+                  <span>Dashboard</span>
                 </p>
               </DropdownItem>
             </DropdownMenu>
