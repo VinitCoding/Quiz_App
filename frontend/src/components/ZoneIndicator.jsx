@@ -5,11 +5,11 @@ const ZoneIndicator = ({ data }) => {
   const [value, setValue] = useState(0.0);
 
   useEffect(() => {
-    if (data === "green") {
+    if (data === "green zone") {
       setValue(0.83);
-    } else if (data === "yellow") {
+    } else if (data === "yellow zone") {
       setValue(0.5);
-    } else if (data === "red") {
+    } else if (data === "red zone") {
       setValue(0.16);
     }
   }, [data]);
@@ -32,7 +32,7 @@ const ZoneIndicator = ({ data }) => {
 
       {/* Score text */}
       <div className="mb-6 text-center">
-        <h4 className={`${data === 'red' && 'text-red-600'} ${data === 'green' && 'text-green-600'} ${data === 'yellow' && 'text-yellow-500'} font-extrabold text-medium`}>{data.toUpperCase()}</h4>
+        <h4 className={`${data === 'red zone' && 'text-red-600'} ${data === 'green zone' && 'text-green-600'} ${data === 'yellow zone' && 'text-yellow-500'} font-extrabold text-medium`}>{data.toUpperCase()}</h4>
       </div>
     </div>
   );
