@@ -20,9 +20,11 @@ import chistats_logo from "../../assets/chistats_logo.svg";
 
 const Candi_Dashboard = () => {
   const getUser = sessionStorage.getItem("login_user");
+  const getQuizStatus = sessionStorage.getItem('quiz_submitted')
   const navigate = useNavigate()
   const handleLogout = () => {
     sessionStorage.removeItem('login_user')
+    sessionStorage.removeItem('quiz_submitted')
     navigate('/')
   }
   const navigateExamPage = () => {
@@ -78,9 +80,13 @@ const Candi_Dashboard = () => {
         {/* Exam Card*/}
         <div className="flex flex-col items-center justify-center text-center border-4 border-gray-300 gap-y-4 xl:w-[45%] lg:w-[55%] md:w-[65%] sm:w-[75%] w-full xl:mx-3 lg:mx-4 md:mx-5 sm:mx-6 mx-8 mt-1 pb-4 rounded-md">
           <h2 className="mt-3 text-3xl font-semibold">Internship Exam</h2>
-          <button className="p-2 font-medium bg-green-300 rounded-md cursor-pointer w-fit text hover:bg-green-200" onClick={navigateExamPage}>
+          {
+            getQuizStatus ? (<button className="p-2 font-medium bg-gray-300 rounded-md cursor-pointer w-fit text hover:bg-gray-200 disabled:cursor-not-allowed" disabled={getQuizStatus}>
+              Exam Submitted
+            </button>) : (<button className="p-2 font-medium bg-green-300 rounded-md cursor-pointer w-fit text hover:bg-green-200" onClick={navigateExamPage}>
             Start Exam
-          </button>
+          </button>)
+          }
           <Divider className="w-[90%]" />
           <h3 className="font-semibold">Details</h3>
 
