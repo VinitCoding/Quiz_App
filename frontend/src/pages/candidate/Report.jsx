@@ -1,7 +1,7 @@
 import React from "react";
 import bg_img from "../../assets/report_bg.svg";
 import Confetti from "../../components/Confetti";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Divider,
   Dropdown,
@@ -17,6 +17,10 @@ import logo from "../../assets/logo.svg";
 import ZoneIndicator from "../../components/ZoneIndicator";
 
 const Report = () => {
+  const location = useLocation();
+  const { data } = location.state;
+  console.log("Data came to Report", data);
+
   const getUser = sessionStorage.getItem("login_user");
   const navigate = useNavigate("/");
   const handleLogout = () => {
@@ -43,13 +47,7 @@ const Report = () => {
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
               <DropdownItem>
-                <User
-                  name="Jane Doe"
-                  description={`${getUser}`}
-                  avatarProps={{
-                    src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-                  }}
-                />
+                <User name={`${getUser}`} />
               </DropdownItem>
               <DropdownItem>
                 <Divider />
@@ -80,9 +78,11 @@ const Report = () => {
             your exam
           </h1>
           <div className="">
-            <h2 className="text-lg font-semibold text-center">Your Scoring zone</h2>
+            <h2 className="text-lg font-semibold text-center">
+              Your Scoring zone
+            </h2>
             <div className="flex justify-center mt-4">
-              <ZoneIndicator data={"green"} />
+              <ZoneIndicator data={data} />
             </div>
           </div>
         </div>
