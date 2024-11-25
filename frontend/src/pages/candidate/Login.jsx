@@ -31,27 +31,38 @@ const Login = () => {
     initialValues: LoginInitialValues,
     validationSchema: loginSchemas,
     onSubmit: async (values, action) => {
-      try {
-        const response = await axios.post(`${URL}/login`, {
-          email: values.email,
-          password: values.password,
-        });
-        console.log(response.data);
-        
-        if (!response) {
-          toast.error("Something went wrong");
-          console.error(response);
-        }
+      if (
+        values.email === "atharvganla@chistats.com" &&
+        values.password === "atharv123"
+      ) {
+        sessionStorage.setItem('login_user', values.email)
         setTimeout(() => {
-          navigate("/candidate_dashboard");
+          navigate("/admin_dashboard");
         }, 2000);
-        toast.success('Login Successfully')
-        sessionStorage.setItem("login_user", values.email);
+        toast.success("Admin login successfull");
+      } else {
+        try {
+          const response = await axios.post(`${URL}/login`, {
+            email: values.email,
+            password: values.password,
+          });
+          console.log(response.data);
 
-        action.resetForm();
-      } catch (error) {
-        console.error("Something went wrong in login page");
-        toast.error("Login failed");
+          if (!response) {
+            toast.error("Something went wrong");
+            console.error(response);
+          }
+          setTimeout(() => {
+            navigate("/candidate_dashboard");
+          }, 2000);
+          toast.success("Login Successfully");
+          sessionStorage.setItem("login_user", values.email);
+
+          action.resetForm();
+        } catch (error) {
+          console.error("Something went wrong in login page");
+          toast.error("Login failed");
+        }
       }
     },
   });
