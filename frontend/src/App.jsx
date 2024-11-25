@@ -10,6 +10,8 @@ import OTPVerification from "./pages/candidate/OTPVerification";
 import Candi_Dashboard from "./pages/candidate/Candi_Dashboard";
 import ExamPage from "./pages/candidate/ExamPage";
 import Report from "./pages/candidate/Report";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import Analytics from "./pages/admin/Analytics";
 
 const App = () => {
   return (
@@ -41,6 +43,22 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Report />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin_dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />
