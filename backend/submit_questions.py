@@ -58,7 +58,10 @@ def submit_questions(data: QuestionSubmission, db: Session = Depends(get_db)):
                     correct_count += 1
 
     if total_count > 0:
-        percentage = (correct_count / total_count) * 100
+        total_questions = sum(len(category['questions']) for category in questions_data['categories'])
+        print('total_questions : ', total_questions)
+        # percentage = (correct_count / total_count) * 100
+        percentage = (correct_count / total_questions) * 100
     else:
         percentage = 0
 
