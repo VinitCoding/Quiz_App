@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import Analytics from "./pages/admin/Analytics";
 import AdminLogin from "./pages/admin/AdminLogin";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
+import PageNotFound from "./pages/PageNotFound";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/auth_2" element={<Auth_2 />} />
         <Route path="/otp_verify" element={<OTPVerification />} />
         <Route path="/admin_login" element={<AdminLogin />}/>
+        <Route path="*" element={<PageNotFound />}/>
         <Route
           path="/candidate_dashboard"
           element={

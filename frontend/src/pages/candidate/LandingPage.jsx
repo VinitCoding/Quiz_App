@@ -14,12 +14,12 @@ const LandingPage = () => {
   };
 
   const handleAdminLogin = () => {
-    navigate('/admin_login')
-  }
+    navigate("/admin_login");
+  };
   return (
     <section
       className="w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-y-auto sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover "
-      style={{ backgroundImage: `url(${bg_img})`}}
+      style={{ backgroundImage: `url(${bg_img})` }}
     >
       {/* Navbar */}
       <nav className="xl:w-[91.6%] xl:shadow-none lg:shadow-lg md:shadow-lg sm:shadow-lg shadow-lg lg:w-full md:w-full w-full xl:backdrop-blur-none lg:backdrop-blur-md md:backdrop-blur-lg sm:backdrop-blur backdrop-blur-md xl:bg-transparent  p-3 flex justify-between items-center xl:flex lg:flex md:flex sm:fixed fixed z-20">
@@ -57,22 +57,19 @@ const LandingPage = () => {
       </div>
 
       {/* Button */}
-      <div className="flex justify-center mt-4 gap-x-6 ">
+      <div className="flex justify-center mt-4 gap-x-12 ">
+        <button
+          className="bg-white text-dark-blue px-8 py-1.5 rounded text-lg font-medium shadow-md shadow-gray-400 hover:shadow-none cursor-pointer border-dark-blue border-1"
+          onClick={handleAdminLogin}
+        >
+          Admin Login
+        </button>
         <button
           className="bg-dark-blue text-white px-4 py-1.5 rounded text-lg font-medium shadow-md shadow-blue-400 hover:shadow-none cursor-pointer  "
           onClick={handleNavigate}
         >
-         User Login
+          Candidate Login
         </button>
-
-        <button
-          className="bg-white text-dark-blue px-4 py-1.5 rounded text-lg font-medium shadow-md shadow-gray-100 hover:shadow-none cursor-pointer border-dark-blue border-1"
-          onClick={handleAdminLogin}
-        >
-         Admin Login
-        </button>
-
-
       </div>
 
       {/* Image */}

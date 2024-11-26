@@ -92,36 +92,36 @@ const AdminDashboard = () => {
       <div className="px-6 mt-3">
         <Table className="w-full">
           <TableHeader>
-            <TableColumn className="w-[10%] text-medium">Sr. No.</TableColumn>
-            <TableColumn className="w-[40%] text-medium">Candidate Name</TableColumn>
-            <TableColumn className="w-[12%] text-medium">Exam Complition Date</TableColumn>
-            <TableColumn className="w-[10%] text-medium">Actions</TableColumn>
+            <TableColumn className="w-[10%] text-medium text-center">Sr. No.</TableColumn>
+            <TableColumn className="w-[40%] text-medium text-center">Candidate Name</TableColumn>
+            <TableColumn className="w-[12%] text-medium text-center">Exam Complition Date</TableColumn>
+            <TableColumn className="w-[10%] text-medium text-center">Actions</TableColumn>
           </TableHeader>
 
           <TableBody>
             <TableRow>
-              <TableCell>1.</TableCell>
-              <TableCell>Ajay Verma</TableCell>
-              <TableCell>20/11/2024</TableCell>
-              <TableCell onClick={() => handleAnalytics('Ajay Verma')} className="hover:cursor-pointer hover:underline hover:text-blue-700">Show Analytics</TableCell>
+              <TableCell className="text-center">1.</TableCell>
+              <TableCell className="text-center">Ajay Verma</TableCell>
+              <TableCell className="text-center">20/11/2024</TableCell>
+              <TableCell onClick={() => handleAnalytics('Ajay Verma')} className="text-center hover:cursor-pointer hover:underline hover:text-blue-700">Show Analytics</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>2.</TableCell>
-              <TableCell>Abhishek Desai</TableCell>
-              <TableCell>Not completed</TableCell>
-              <TableCell>----</TableCell>
+              <TableCell className="text-center">2.</TableCell>
+              <TableCell className="text-center">Abhishek Desai</TableCell>
+              <TableCell className="text-center">Not completed</TableCell>
+              <TableCell className="text-center">----</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>3.</TableCell>
-              <TableCell>Shahaji Naik</TableCell>
-              <TableCell>20/11/2024</TableCell>
-              <TableCell onClick={() => handleAnalytics('Shahaji Naik')} className="hover:cursor-pointer hover:underline hover:text-blue-700">Show Analytics</TableCell>
+              <TableCell className="text-center">3.</TableCell>
+              <TableCell className="text-center">Shahaji Naik</TableCell>
+              <TableCell className="text-center">20/11/2024</TableCell>
+              <TableCell onClick={() => handleAnalytics('Shahaji Naik')} className="text-center hover:cursor-pointer hover:underline hover:text-blue-700">Show Analytics</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>4.</TableCell>
-              <TableCell>Dinkar Patil</TableCell>
-              <TableCell>Not completed</TableCell>
-              <TableCell>----</TableCell>
+              <TableCell className="text-center">4.</TableCell>
+              <TableCell className="text-center">Dinkar Patil</TableCell>
+              <TableCell className="text-center">Not completed</TableCell>
+              <TableCell className="text-center">----</TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -31,38 +31,27 @@ const Login = () => {
     initialValues: LoginInitialValues,
     validationSchema: loginSchemas,
     onSubmit: async (values, action) => {
-      if (
-        values.email === "atharvganla@chistats.com" &&
-        values.password === "atharv123"
-      ) {
-        sessionStorage.setItem('login_user', values.email)
-        setTimeout(() => {
-          navigate("/admin_dashboard");
-        }, 2000);
-        toast.success("Admin login successfull");
-      } else {
-        try {
-          const response = await axios.post(`${URL}/login`, {
-            email: values.email,
-            password: values.password,
-          });
-          console.log(response.data);
+      try {
+        const response = await axios.post(`${URL}/login`, {
+          email: values.email,
+          password: values.password,
+        });
+        console.log(response.data);
 
-          if (!response) {
-            toast.error("Something went wrong");
-            console.error(response);
-          }
-          setTimeout(() => {
-            navigate("/candidate_dashboard");
-          }, 2000);
-          toast.success("Login Successfully");
-          sessionStorage.setItem("login_user", values.email);
-
-          action.resetForm();
-        } catch (error) {
-          console.error("Something went wrong in login page");
-          toast.error("Login failed");
+        if (!response) {
+          toast.error("Something went wrong");
+          console.error(response);
         }
+        setTimeout(() => {
+          navigate("/candidate_dashboard");
+        }, 2000);
+        toast.success("Login Successfully");
+        sessionStorage.setItem("login_user", values.email);
+
+        action.resetForm();
+      } catch (error) {
+        console.error("Something went wrong in login page");
+        toast.error("Login failed");
       }
     },
   });
@@ -145,11 +134,6 @@ const Login = () => {
               }
               type={isVisible ? "text" : "password"}
             />
-            {errors.password && touched.password ? (
-              <p className="text-sm font-semibold text-red-400">
-                {errors.password}
-              </p>
-            ) : null}
             <p className="text-base cursor-pointer text-end hover:underline hover:underline-offset-2">
               Forgot Password
             </p>

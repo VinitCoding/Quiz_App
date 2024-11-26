@@ -76,7 +76,7 @@ const Auth_1 = () => {
   }, [errors]);
 
   const handleForm = () => {
-    navigate('/login')
+    navigate('/user_login')
   };
   return (
     <section

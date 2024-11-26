@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../assets/logo.svg";
 import bg_img from "../../assets/candidate_bg.svg";
 // import bg_circle from '../assets/bg_circle.svg'
@@ -97,14 +97,16 @@ const Candi_Dashboard = () => {
                 <IoCalendarOutline className="text-[130%]" />
                 <p>Date</p>
               </div>
-              <p>03/08/2024</p>
+              <p>26/11/2024</p>
             </div>
             <div className="flex justify-between w-auto lg:w-auto md:w-auto sm:w-auto">
               <div className="flex gap-x-2">
                 <img src={status_logo} alt="date_img" />
                 <p>Status</p>
               </div>
-              <p>Completed</p>
+              {
+                getQuizStatus ? (<p>Completed</p>) : (<p>Incomplete</p>)
+              }
             </div>
           </div>
         </div>
