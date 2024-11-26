@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 const ProtectedRoute = ({ children }) => {
   const isUser = sessionStorage.getItem('login_user')
   if (!isUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/user_login" />;
   }
 
   return children;

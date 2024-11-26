@@ -12,16 +12,19 @@ import ExamPage from "./pages/candidate/ExamPage";
 import Report from "./pages/candidate/Report";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Analytics from "./pages/admin/Analytics";
+import AdminLogin from "./pages/admin/AdminLogin";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
 
 const App = () => {
   return (
     <main className="w-screen h-screen">
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/user_login" element={<Login />} />
         <Route path="/auth_1" element={<Auth_1 />} />
         <Route path="/auth_2" element={<Auth_2 />} />
         <Route path="/otp_verify" element={<OTPVerification />} />
+        <Route path="/admin_login" element={<AdminLogin />}/>
         <Route
           path="/candidate_dashboard"
           element={
@@ -49,17 +52,17 @@ const App = () => {
         <Route
           path="/admin_dashboard"
           element={
-            <ProtectedRoute>
+            <ProtectedAdminRoute>
               <AdminDashboard />
-            </ProtectedRoute>
+            </ProtectedAdminRoute>
           }
         />
         <Route
           path="/analytics"
           element={
-            <ProtectedRoute>
+            <ProtectedAdminRoute>
               <Analytics />
-            </ProtectedRoute>
+            </ProtectedAdminRoute>
           }
         />
       </Routes>

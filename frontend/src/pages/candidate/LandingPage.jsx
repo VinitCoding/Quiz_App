@@ -10,8 +10,12 @@ import chistats_logo from "../../assets/chistats_logo.svg";
 const LandingPage = () => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("/login");
+    navigate("/user_login");
   };
+
+  const handleAdminLogin = () => {
+    navigate('/admin_login')
+  }
   return (
     <section
       className="w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-y-auto sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover "
@@ -53,13 +57,22 @@ const LandingPage = () => {
       </div>
 
       {/* Button */}
-      <div className="flex justify-center mt-4 ">
+      <div className="flex justify-center mt-4 gap-x-6 ">
         <button
           className="bg-dark-blue text-white px-4 py-1.5 rounded text-lg font-medium shadow-md shadow-blue-400 hover:shadow-none cursor-pointer  "
           onClick={handleNavigate}
         >
-          Login
+         User Login
         </button>
+
+        <button
+          className="bg-white text-dark-blue px-4 py-1.5 rounded text-lg font-medium shadow-md shadow-gray-100 hover:shadow-none cursor-pointer border-dark-blue border-1"
+          onClick={handleAdminLogin}
+        >
+         Admin Login
+        </button>
+
+
       </div>
 
       {/* Image */}

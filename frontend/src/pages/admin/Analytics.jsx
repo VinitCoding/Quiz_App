@@ -18,7 +18,7 @@ const Analytics = () => {
   const location = useLocation();
   const { data } = location.state;
   const navigate = useNavigate();
-  const getUser = sessionStorage.getItem("login_user");
+  const getUser = sessionStorage.getItem("login_admin");
   const handleDashboard = () => {
     navigate("/admin_dashboard");
   };
@@ -86,6 +86,9 @@ const Analytics = () => {
       <div className="flex">
         {/* Questions and Answers */}
         <div className="bg-[#DCECFF] max-h-[74.3vh] overflow-y-auto w-[50%]">
+          <div className="flex justify-center mt-6">
+            <h2 className="text-lg font-bold">Total Questions</h2>
+          </div>
           <div className="flex flex-col items-center justify-center mt-3 mb-3 gap-y-4">
             <div className="w-[80%] p-3 bg-white rounded-md">
               <h1 className="font-medium">
@@ -96,20 +99,20 @@ const Analytics = () => {
                 <li className="pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400">
                   List
                 </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
+                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-red-100">
                   Tuple
                 </li>
                 <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
                   Set
                 </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
+                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
                   String
                 </li>
               </ul>
             </div>
             <div className="w-[80%] p-3 bg-white rounded-md">
               <h1 className="font-medium">
-                Q.1. Which data type is used to store a sequence of characters
+                Q.2. Which data type is used to store a sequence of characters
                 in Python?
               </h1>
               <ul>
@@ -122,14 +125,14 @@ const Analytics = () => {
                 <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
                   Set
                 </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
+                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
                   String
                 </li>
               </ul>
             </div>
             <div className="w-[80%] p-3 bg-white rounded-md">
               <h1 className="font-medium">
-                Q.1. Which data type is used to store a sequence of characters
+                Q.3. Which data type is used to store a sequence of characters
                 in Python?
               </h1>
               <ul>
@@ -142,7 +145,7 @@ const Analytics = () => {
                 <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
                   Set
                 </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
+                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
                   String
                 </li>
               </ul>
@@ -163,7 +166,7 @@ const Analytics = () => {
                 nrOfLevels={3}
                 colors={["#FF0000", "#FFA500", "#4CAF50"]} // Red, Yellow, Green
                 arcWidth={0.3}
-                percent={0.8} // Dynamically set the percent value
+                percent={0.5} // Dynamically set the percent value
                 textColor={"black"}
                 //   needleColor="transparent"
                 hideText={true}
@@ -205,7 +208,7 @@ const Analytics = () => {
           {/* Zone */}
           <div className="flex justify-between px-4 my-4">
             <h3 className="text-lg">Zone</h3>
-            <h3 className="font-semibold text-green-600 text-large">Green</h3>
+            <h3 className="font-semibold text-[#FFA500] text-large">Yellow</h3>
           </div>
         </div>
       </div>

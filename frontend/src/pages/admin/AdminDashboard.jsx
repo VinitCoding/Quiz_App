@@ -22,9 +22,9 @@ import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const navigate = useNavigate()
-  const getUser = sessionStorage.getItem("login_user");
+  const getUser = sessionStorage.getItem("login_admin");
   const handleLogout = () => {
-    sessionStorage.removeItem("login_user");
+    sessionStorage.removeItem("login_admin");
     navigate("/");
   };
 
