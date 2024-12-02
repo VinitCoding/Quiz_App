@@ -154,7 +154,6 @@ const ExamPage = () => {
 
     // const handleRightClick = (event) => {
     //   event.preventDefault(); // Prevent context menu
-    //   // setWarningMessage("Right-click is disabled.");
     // };
 
     const handleFullscreenChange = () => {
