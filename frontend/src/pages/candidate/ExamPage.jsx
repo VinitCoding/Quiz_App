@@ -33,10 +33,8 @@ const ExamPage = () => {
   const getReport = async () => {
     try {
       const response = await axios.post(`${URL}/submit`, {
-        category_info: selectedAnswer,
-        // {
-        //   'category_info' : selectedAnswer
-        // }
+        'username': getUser,
+        'category_info': selectedAnswer,
       });
 
       if (!response) {
