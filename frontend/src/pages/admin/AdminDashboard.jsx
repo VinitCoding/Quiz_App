@@ -51,8 +51,8 @@ const AdminDashboard = () => {
               <button className="p-2 bg-gray-200 rounded-full">
                 <FaUser />
               </button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions">
+            </DropdownTrigger >
+            <DropdownMenu aria-label="User Actions">
               <DropdownItem>
                 <User name={`${getUser}`} />
               </DropdownItem>
@@ -80,9 +80,6 @@ const AdminDashboard = () => {
       {/* Content */}
       <div className="flex justify-between px-6 mt-6">
         <h2 className="text-xl font-semibold">Admin Dashboard</h2>
-        <button className="px-3.5 py-2 font-semibold text-white bg-blue-500 rounded-md text-medium">
-          Scheduled Test
-        </button>
       </div>
 
       <div className="px-6 mt-3">

@@ -36,8 +36,7 @@ const Login = () => {
           email: values.email,
           password: values.password,
         });
-        console.log(response.data);
-
+        // console.log(response.data);
         if (!response) {
           toast.error("Something went wrong");
           console.error(response);

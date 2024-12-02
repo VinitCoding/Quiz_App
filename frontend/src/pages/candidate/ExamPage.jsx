@@ -6,7 +6,7 @@ import {
   DropdownTrigger,
   User,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import logo from "../../assets/logo.svg";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -26,9 +26,43 @@ const ExamPage = () => {
   const [answeredQuestions, setAnsweredQuestions] = useState({});
   const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
+  const [showToast, setShowToast] = useState(false)
   const navigate = useNavigate("/");
+  const toastTimerRef = useRef()
+
+  const getReport = async () => {
+    try {
+      const response = await axios.post(`${URL}/submit`, {
+        category_info: selectedAnswer,
+        // {
+        //   'category_info' : selectedAnswer
+        // }
+      });
+
+      if (!response) {
+        toast.error("Something went wrong");
+      }
+      const isFullscreenSupported = document.fullscreenEnabled !== undefined;
+      setTimeout(() => {
+        setTimeout(() => {
+          navigate("/report", { state: { data: response.data.zone } });
+          if (isFullscreenSupported && document.fullscreenElement) {
+            document.exitFullscreen();
+          }
+        }, 3000);
+        toast.success("Quiz submitted successfully...");
+        sessionStorage.setItem("quiz_submitted", true);
+        console.log(selectedAnswer);
+        setSubmitQuiz(true);
+      }, 500);
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleLogout = () => {
-    navigate("/candidate_dashboard");
+    getReport();
   };
   const URL = "http://127.0.0.1:8000/exam";
 
@@ -74,6 +108,81 @@ const ExamPage = () => {
       clearInterval(interval);
     };
   }, [seconds]); // Re-run this effects whenever the seconds is changed
+
+  useEffect(() => {
+    const enterFullscreen = () => {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    };
+
+    enterFullscreen();
+
+    const handleKeyPress = (event) => {
+      if (
+        event ||
+        (event.ctrlKey && event.key === "r") ||
+        (event.ctrlKey && event.key === "c") ||
+        (event.ctrlKey && event.key === "x")
+      ) {
+        event.preventDefault();
+        if(!showToast){
+          toast.error("Don't press any keys from keyboard");
+          setShowToast(true)
+
+          toastTimerRef.current = setTimeout(() => {
+            setShowToast(false)
+          }, 2000)
+        }
+      }
+    };
+
+    const handleAltTab = (event) => {
+      if (event.altKey && event.key === "Tab") {
+        
+        event.preventDefault(); // Prevent Alt + Tab
+        getReport(); // Navigate to dashboard
+      }
+    };
+
+    const handleRightClick = (event) => {
+      event.preventDefault(); // Prevent context menu
+      // setWarningMessage("Right-click is disabled.");
+    };
+
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        const showAlert = confirm('Do you really want to submit exam...')
+        if(showAlert === true){
+          getReport();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener("keydown", handleAltTab);
+    window.addEventListener("contextmenu", handleRightClick); // Block right-click
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("keydown", handleAltTab);
+      window.removeEventListener("contextmenu", handleRightClick);
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+
+      // Clean up the timer functions
+      if(toastTimerRef.current){
+        clearTimeout(toastTimerRef.current)
+      }
+    };
+  }, [navigate, showToast]);
 
   const getTotalQuestionCount = (upToCategory) => {
     let count = 0;
@@ -126,7 +235,7 @@ const ExamPage = () => {
         questions[currentCategoryIndex].questions.length - 1
     );
   };
-  
+
   const handleOptionSelect = (optionKey) => {
     const categoryName = currentCategory.name;
 
@@ -150,37 +259,6 @@ const ExamPage = () => {
     });
   };
 
-  const getReport = async() => {
-    try {
-      const response = await axios.post(`${URL}/submit`, {
-        'category_info': selectedAnswer
-        // {
-        //   'category_info' : selectedAnswer
-        // }
-      })
-
-      if(!response){
-        toast.error('Something went wrong')
-      }
-
-      setTimeout(() => {
-      setTimeout(() => {
-        navigate("/report", {state: {data : response.data.zone}});
-      }, 3000);
-      toast.success("Quiz submitted successfully...");
-      sessionStorage.setItem('quiz_submitted', true)
-      console.log(selectedAnswer);
-      setSubmitQuiz(true);
-    }, 500);
-
-      console.log(response.data);
-      
-    } catch (error) {
-      console.log(error);
-    }
-    
-  };
-
   const handleQuestionSelect = (categoryIndex, questionIndex) => {
     setCurrentCategoryIndex(categoryIndex);
     setCurrentQuestionIndex(questionIndex);
@@ -195,6 +273,7 @@ const ExamPage = () => {
       return total + category.questions.length;
     }, 0);
   };
+
   return (
     <section className="w-screen h-screen bg-[#E0EFFF] overflow-y-auto">
       <Toaster />
@@ -213,10 +292,8 @@ const ExamPage = () => {
               </button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
-            <DropdownItem>
-                <User
-                  name={`${getUser}`}
-                />
+              <DropdownItem>
+                <User name={`${getUser}`} />
               </DropdownItem>
               <DropdownItem>
                 <Divider />

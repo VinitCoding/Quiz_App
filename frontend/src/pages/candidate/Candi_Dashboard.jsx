@@ -19,12 +19,13 @@ import footer_logo from '../../assets/Footer_logo.svg'
 import chistats_logo from "../../assets/chistats_logo.svg";
 
 const Candi_Dashboard = () => {
+  
   const getUser = sessionStorage.getItem("login_user");
   const getQuizStatus = sessionStorage.getItem('quiz_submitted')
   const navigate = useNavigate()
   const handleLogout = () => {
     sessionStorage.removeItem('login_user')
-    sessionStorage.removeItem('quiz_submitted')
+    // sessionStorage.removeItem('quiz_submitted')
     navigate('/')
   }
   const navigateExamPage = () => {
@@ -97,7 +98,9 @@ const Candi_Dashboard = () => {
                 <IoCalendarOutline className="text-[130%]" />
                 <p>Date</p>
               </div>
-              <p>26/11/2024</p>
+              {
+                getQuizStatus ? (<p>{new Date().toLocaleDateString('en-GB')}</p>) : (<p>----</p>)
+              }
             </div>
             <div className="flex justify-between w-auto lg:w-auto md:w-auto sm:w-auto">
               <div className="flex gap-x-2">

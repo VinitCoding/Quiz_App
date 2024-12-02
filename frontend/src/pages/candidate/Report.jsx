@@ -3,7 +3,6 @@ import bg_img from "../../assets/report_bg.svg";
 import Confetti from "../../components/Confetti";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -15,6 +14,7 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import chistats_logo from "../../assets/chistats_logo.svg";
 import logo from "../../assets/logo.svg";
 import ZoneIndicator from "../../components/ZoneIndicator";
+import { MdSpaceDashboard } from "react-icons/md";
 
 const Report = () => {
   const location = useLocation();
@@ -23,9 +23,13 @@ const Report = () => {
 
   const getUser = sessionStorage.getItem("login_user");
   const navigate = useNavigate("/");
-  const handleLogout = () => {
+  const handleDashboard = () => {
     navigate("/candidate_dashboard");
   };
+
+  const handleLogout = () => {
+    navigate('/')
+  }
   return (
     <section
       className="flex flex-col w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-hidden sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover "
@@ -49,18 +53,16 @@ const Report = () => {
               <DropdownItem>
                 <User name={`${getUser}`} />
               </DropdownItem>
-              <DropdownItem>
-                <Divider />
+              <DropdownItem onClick={handleDashboard}>
+                <p className="flex items-center gap-x-2">
+                  <MdSpaceDashboard className="text-lg" />
+                  <span>Dashboard</span>
+                </p>
               </DropdownItem>
-              <DropdownItem
-                key="delete"
-                className="text-danger"
-                color="danger"
-                onClick={handleLogout}
-              >
+              <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleLogout}>
                 <p className="flex items-center gap-x-2">
                   <RiLogoutBoxRLine className="text-lg" />
-                  <span>Dashboard</span>
+                  <span>Logout</span>
                 </p>
               </DropdownItem>
             </DropdownMenu>

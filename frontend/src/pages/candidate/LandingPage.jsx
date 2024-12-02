@@ -6,6 +6,16 @@ import online_test from "../../assets/online_test_bg.svg";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import chistats_logo from "../../assets/chistats_logo.svg";
+import {
+  Divider,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Tooltip,
+} from "@nextui-org/react";
+import { RiLogoutBoxRLine } from "react-icons/ri";
+import admin_img from "../../assets/admin_login.svg";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -22,14 +32,34 @@ const LandingPage = () => {
       style={{ backgroundImage: `url(${bg_img})` }}
     >
       {/* Navbar */}
-      <nav className="xl:w-[91.6%] xl:shadow-none lg:shadow-lg md:shadow-lg sm:shadow-lg shadow-lg lg:w-full md:w-full w-full xl:backdrop-blur-none lg:backdrop-blur-md md:backdrop-blur-lg sm:backdrop-blur backdrop-blur-md xl:bg-transparent  p-3 flex justify-between items-center xl:flex lg:flex md:flex sm:fixed fixed z-20">
+      <nav className="fixed z-20 flex items-center justify-between w-full p-3 pr-12 shadow-lg xl:w-full xl:shadow-none lg:shadow-lg md:shadow-lg sm:shadow-lg lg:w-full md:w-full xl:backdrop-blur-none lg:backdrop-blur-md md:backdrop-blur-lg sm:backdrop-blur backdrop-blur-md xl:bg-transparent xl:flex lg:flex md:flex sm:fixed">
         <div className="flex gap-x-1">
           <img src={logo} alt="" className="" />
           <h2 className="text-3xl font-bold">Quizly</h2>
         </div>
 
-        <div>
+        <div className="flex items-center justify-center gap-x-20">
           <img src={chistats_logo} alt="company_logo" className="w-[90%] " />
+          <Dropdown>
+            <DropdownTrigger className="p-1.5 mt-1 bg-white rounded-full ">
+                <button className="w-full" title="Admin">
+                  <img src={admin_img} alt="admin_image" className="w-[90%] " />
+                </button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions">
+              <DropdownItem
+                key="delete"
+                className=""
+                color="primary"
+                onClick={handleAdminLogin}
+              >
+                <p className="flex items-center gap-x-2">
+                  <RiLogoutBoxRLine className="text-lg" />
+                  <span>Admin Login</span>
+                </p>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </nav>
 
@@ -58,17 +88,17 @@ const LandingPage = () => {
 
       {/* Button */}
       <div className="flex justify-center mt-4 gap-x-12 ">
-        <button
+        {/* <button
           className="bg-white text-dark-blue px-8 py-1.5 rounded text-lg font-medium shadow-md shadow-gray-400 hover:shadow-none cursor-pointer border-dark-blue border-1"
           onClick={handleAdminLogin}
         >
           Admin Login
-        </button>
+        </button> */}
         <button
           className="bg-dark-blue text-white px-4 py-1.5 rounded text-lg font-medium shadow-md shadow-blue-400 hover:shadow-none cursor-pointer  "
           onClick={handleNavigate}
         >
-          Candidate Login
+          Candidate login
         </button>
       </div>
 
