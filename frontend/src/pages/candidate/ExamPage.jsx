@@ -152,10 +152,10 @@ const ExamPage = () => {
       }
     };
 
-    const handleRightClick = (event) => {
-      event.preventDefault(); // Prevent context menu
-      // setWarningMessage("Right-click is disabled.");
-    };
+    // const handleRightClick = (event) => {
+    //   event.preventDefault(); // Prevent context menu
+    //   // setWarningMessage("Right-click is disabled.");
+    // };
 
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
@@ -168,13 +168,13 @@ const ExamPage = () => {
 
     window.addEventListener("keydown", handleKeyPress);
     window.addEventListener("keydown", handleAltTab);
-    window.addEventListener("contextmenu", handleRightClick); // Block right-click
+    // window.addEventListener("contextmenu", handleRightClick); // Block right-click
     document.addEventListener("fullscreenchange", handleFullscreenChange);
 
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
       window.removeEventListener("keydown", handleAltTab);
-      window.removeEventListener("contextmenu", handleRightClick);
+      // window.removeEventListener("contextmenu", handleRightClick);
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
 
       // Clean up the timer functions
