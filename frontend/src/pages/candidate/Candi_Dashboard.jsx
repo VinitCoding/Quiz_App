@@ -24,9 +24,9 @@ const Candi_Dashboard = () => {
   const getQuizStatus = sessionStorage.getItem('quiz_submitted')
   const navigate = useNavigate()
   const handleLogout = () => {
-    sessionStorage.removeItem('login_user')
     // sessionStorage.removeItem('quiz_submitted')
     navigate('/')
+    sessionStorage.removeItem('login_user')
   }
   const navigateExamPage = () => {
     navigate('/exam')

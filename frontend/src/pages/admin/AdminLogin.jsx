@@ -8,19 +8,20 @@ import laptop_img from "../../assets/laptop_bg.svg";
 import logo from "../../assets/logo.svg";
 import auth_bg from "../../assets/auth_bg.svg";
 import { useFormik } from "formik";
+import axios from "axios";
 
 const AdminLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const navigate = useNavigate();
-  //   const URL = "http://127.0.0.1:8000/exam";
+  const url = "http://127.0.0.1:8000/admin";
   const handleForm = () => {
     toast.success("Registration done...");
   };
 
   // Initial Login credentials
   const LoginInitialValues = {
-    email: "",
+    username: "",
     password: "",
   };
 
@@ -29,43 +30,44 @@ const AdminLogin = () => {
     initialValues: LoginInitialValues,
     validationSchema: adminLoginSchemas,
     onSubmit: async (values, action) => {
-      if (
-        values.email === "atharvganla@chistats.com" &&
-        values.password === "atharv123"
-      ) {
-        sessionStorage.setItem("login_admin", values.email);
-        setTimeout(() => {
-          navigate("/admin_dashboard");
-        }, 2000);
-        toast.success("Admin login successfull");
-        action.resetForm();
-      } else {
-        toast.error("Invalid credentials for admin login..");
-      }
-
-      //   try {
-      //   const response = await axios.post(`${URL}/login`, {
-      //     email: values.email,
-      //     password: values.password,
-      //   });
-      //   console.log(response.data);
-
-      //   if (!response) {
-      //     toast.error("Something went wrong");
-      //     console.error(response);
-      //   }
+      // if (
+      //   values.email === "atharvganla@chistats.com" &&
+      //   values.password === "atharv123"
+      // ) {
+      //   sessionStorage.setItem("login_admin", values.email);
       //   setTimeout(() => {
-      //     navigate("/candidate_dashboard");
+      //     navigate("/admin_dashboard");
       //   }, 2000);
-      //   toast.success("Login Successfully");
-      //   sessionStorage.setItem("login_user", values.email);
-
+      //   toast.success("Admin login successfull");
       //   action.resetForm();
+      // } else {
+      //   toast.error("Invalid credentials for admin login..");
       // }
-      // catch (error) {
-      //   console.error("Something went wrong in login page");
-      //   toast.error("Login failed");
-      // }
+
+      try {
+        const response = await axios.post(`${url}/admin_login`, {
+          username: values.username,
+          password: values.password,
+        });
+        const status = response.data.status;
+        const message = response.data.message;
+        // console.log(typeof status);
+
+        if (status === false) {
+          toast.error(`${message}`);
+          console.error(response);
+        } else {
+          setTimeout(() => {
+            navigate("/admin_dashboard");
+          }, 2000);
+          toast.success(`${message}`);
+          sessionStorage.setItem("login_admin", values.username);
+          action.resetForm();
+        }
+      } catch (error) {
+        console.error("Something went wrong in login page");
+        // toast.error("Login failed");
+      }
     },
   });
 
@@ -104,15 +106,15 @@ const AdminLogin = () => {
               variant="subtle"
               isRequired
               className="pl-2"
-              name="email"
-              value={values.email}
+              name="username"
+              value={values.username}
               onChange={handleChange}
               onBlur={handleBlur}
               labelPlacement={"outside"}
-              label="Email"
-              placeholder="Enter your email"
-              isInvalid={errors.email && touched.email}
-              errorMessage={`${errors.email}`}
+              label="Username"
+              placeholder="Enter your username"
+              isInvalid={errors.username && touched.username}
+              errorMessage={`${errors.username}`}
             />
             <Input
               className="pl-2"

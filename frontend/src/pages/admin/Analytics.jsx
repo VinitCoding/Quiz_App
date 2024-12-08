@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.svg";
 import chistats_logo from "../../assets/chistats_logo.svg";
 import {
@@ -19,16 +19,37 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import GaugeChart from "react-gauge-chart";
+import axios from "axios";
+import ZoneIndicator from "../../components/ZoneIndicator";
 
 const Analytics = () => {
   const location = useLocation();
   const { data } = location.state;
   const navigate = useNavigate();
+  const url = "http://127.0.0.1:8000/admin";
+  console.log('Data Arrived at Analytics Pagee', data);
+  const [examData, setExamData] = useState([]);
+
   const getUser = sessionStorage.getItem("login_admin");
   const handleDashboard = () => {
     navigate("/admin_dashboard");
   };
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    loadUserDate();
+  }, []);
+
+  const loadUserDate = async () => {
+    try {
+      const response = await axios.get(`${url}/details?username=${data.email}`);
+      const resp_data = response.data.exam_details;
+      // console.log("Candidate Detailed Analytics data", resp_data);
+      setExamData(resp_data);
+    } catch (error) {
+      console.error("Error at loading user data", error);
+    }
+  };
+  const { isOpen, onOpen, onOpenChange} = useDisclosure();
   return (
     <section className="w-screen h-screen overflow-x-hidden bg-blue-50 ">
       {/* Navbar */}
@@ -78,17 +99,18 @@ const Analytics = () => {
             <div className="flex items-center gap-x-6">
               <h3 className="font-medium text-medium">Name</h3>
               <p className="px-3 py-1 bg-white rounded shadow text-medium">
-                {data}
+                {data.full_name}
               </p>
             </div>
             <div className="flex items-center gap-x-6">
               <h3 className="font-medium text-medium">Email</h3>
               <p className="px-3 py-1 bg-white rounded shadow text-medium w-fit">
-                teswdawdawdadawdat@gmail.com
+                {data.email}
               </p>
             </div>
           </div>
 
+          {/* Report Card */}
           <div className="">
             <Button
               onPress={onOpen}
@@ -110,20 +132,8 @@ const Analytics = () => {
 
                         {/* Gauge chart */}
                         <div className="flex justify-center mt-4">
-                          <div className="w-[45%] ">
-                            <GaugeChart
-                              id="gauge-chart3"
-                              nrOfLevels={3}
-                              colors={["#FF0000", "#FFA500", "#4CAF50"]} // Red, Yellow, Green
-                              arcWidth={0.3}
-                              percent={0.5} // Dynamically set the percent value
-                              textColor={"black"}
-                              //   needleColor="transparent"
-                              hideText={true}
-                              cornerRadius={0}
-                              animDelay={50}
-                              animate={true}
-                            />
+                          <div className="w-[50%] max-w-full ml-5">  
+                            <ZoneIndicator data={data.zone}/>
                           </div>
                         </div>
 
@@ -135,25 +145,13 @@ const Analytics = () => {
                             <h4 className="text-lg">
                               Total Number of Questions
                             </h4>
-                            <h4 className="text-lg">25</h4>
+                            <h4 className="text-lg">{data.report.total_questions}</h4>
                           </div>
                           <div className="flex justify-between px-4">
                             <h4 className="text-lg">
-                              Total Number of Questions Attempted
+                              Total number of correct questions
                             </h4>
-                            <h4 className="text-lg">20</h4>
-                          </div>
-                          <div className="flex justify-between px-4">
-                            <h4 className="text-lg">
-                              Total number of right questions from attempted one
-                            </h4>
-                            <h4 className="text-lg">15</h4>
-                          </div>
-                          <div className="flex justify-between px-4">
-                            <h4 className="text-lg">
-                              Total number of wrong questions from attempted one
-                            </h4>
-                            <h4 className="text-lg">5</h4>
+                            <h4 className="text-lg">{data.report.correct_answers}</h4>
                           </div>
                         </div>
 
@@ -161,9 +159,10 @@ const Analytics = () => {
 
                         {/* Zone */}
                         <div className="flex justify-between px-4 my-4">
-                          <h3 className="text-lg">Zone</h3>
-                          <h3 className="font-semibold text-[#FFA500] text-large">
-                            Yellow
+                          <h3 className="text-lg">Percentage</h3>
+                          <h3 className="font-semibold text-large">
+                            {/* {data.report.percentage} */}
+                            {data.report.percentage === 100 ? '100' : Math.floor(data.report.percentage * 100) / 100}%
                           </h3>
                         </div>
                       </div>
@@ -184,66 +183,49 @@ const Analytics = () => {
         </div>
         <div className="bg-[#DCECFF] max-h-[70vh] overflow-y-auto w-full scrollbar-custom">
           <div className="flex flex-col items-center justify-center mt-5 gap-y-4">
-            <div className="p-3 bg-white rounded-md w-fit">
-              <h1 className="font-medium">
-                Q.1. Which data type is used to store a sequence of characters
-                in Python?
-              </h1>
-              <ul>
-                <li className="pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400">
-                  List
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-red-100">
-                  Tuple
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
-                  Set
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
-                  String
-                </li>
-              </ul>
-            </div>
-            <div className="p-3 bg-white rounded-md w-fit">
-              <h1 className="font-medium">
-                Q.2. Which data type is used to store a sequence of characters
-                in Python?
-              </h1>
-              <ul>
-                <li className="pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400">
-                  List
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
-                  Tuple
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
-                  Set
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
-                  String
-                </li>
-              </ul>
-            </div>
-            <div className="p-3 bg-white rounded-md w-fit">
-              <h1 className="font-medium">
-                Q.3. Which data type is used to store a sequence of characters
-                in Python?
-              </h1>
-              <ul>
-                <li className="pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400">
-                  List
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
-                  Tuple
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
-                  Set
-                </li>
-                <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
-                  String
-                </li>
-              </ul>
-            </div>
+            {examData.map((item, index) => (
+              <div className="w-full max-w-6xl p-3 bg-white rounded-md" key={index}>
+                <div className="flex flex-col items-start gap-y-1">
+                  <h1 className="font-medium w-fit">
+                    Q.{index + 1}.{" "}
+                    {item.Qtype === "text based" ? (
+                      item.question
+                    ) : (
+                      <img
+                        src={`data:image/png;base64,${item.question}`}
+                        alt="question"
+                        className="max-w-full"
+                      />
+                    )}
+                  </h1>
+                  {item.selected_answer === "null" && (
+                    <span className="block text-red-700">(Not selected)</span>
+                  )}
+                </div>
+                <ul>
+                  {Object.entries(item.options).map(([key, value]) => (
+                    <li
+                      key={key}
+                      className={`pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400 
+                  ${
+                    item.is_correct
+                      ? key === item.correct_answer
+                        ? "bg-green-100"
+                        : ""
+                      : key === item.correct_answer
+                      ? "bg-green-100"
+                      : key === item.selected_answer
+                      ? "bg-red-100"
+                      : ""
+                  }
+                `}
+                    >
+                      {value}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -252,3 +234,51 @@ const Analytics = () => {
 };
 
 export default Analytics;
+
+{
+  /* {examData.map((item, index) => {
+              item.Qtype === "text based" ? (
+                <div className="p-3 bg-white rounded-md w-fit" key={index}>
+                  <h1 className="font-medium">
+                    Q.1. Which data type is used to store a sequence of
+                    characters in Python?
+                  </h1>
+                  <ul>
+                    <li className="pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400">
+                      List
+                    </li>
+                    <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-red-100">
+                      Tuple
+                    </li>
+                    <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
+                      Set
+                    </li>
+                    <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
+                      String
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <div className="p-3 bg-white rounded-md w-fit">
+                  <h1 className="font-medium">
+                    Q.1. Which data type is used to store a sequence of
+                    characters in Python?
+                  </h1>
+                  <ul>
+                    <li className="pl-1 py-0.5 mt-2 rounded border-[0.3px] border-gray-400">
+                      List
+                    </li>
+                    <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-red-100">
+                      Tuple
+                    </li>
+                    <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400">
+                      Set
+                    </li>
+                    <li className="pl-1 py-0.5 mt-3 rounded border-[0.3px] border-gray-400 bg-green-100">
+                      String
+                    </li>
+                  </ul>
+                </div>
+              );
+            })} */
+}
