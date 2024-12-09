@@ -80,9 +80,8 @@ const ExamPage = () => {
     }
   };
   const handleLogout = () => {
+
     getReport();
-    sessionStorage.removeItem('login_user')
-    sessionStorage.removeItem('quiz_submitted')
   };
   const URL = "http://127.0.0.1:8000/exam";
 
@@ -156,10 +155,6 @@ const ExamPage = () => {
         if(!showToast){
           toast.error("Don't press any keys from keyboard");
           setShowToast(true)
-
-          toastTimerRef.current = setTimeout(() => {
-            setShowToast(false)
-          }, 2000)
         }
       }
     };
@@ -169,6 +164,7 @@ const ExamPage = () => {
         
         event.preventDefault(); // Prevent Alt + Tab
         getReport(); // Navigate to dashboard
+        enterFullscreen()
       }
     };
 
@@ -181,6 +177,9 @@ const ExamPage = () => {
         const showAlert = confirm('Do you really want to submit exam...')
         if(showAlert === true){
           getReport();
+        }
+        if(showAlert === false){
+          enterFullscreen()
         }
       }
     };

@@ -28,8 +28,10 @@ const Report = () => {
   };
 
   const handleLogout = () => {
-    navigate('/')
-  }
+    sessionStorage.removeItem("quiz_submitted");
+    sessionStorage.removeItem("login_user");
+    navigate("/");
+  };
   return (
     <section
       className="flex flex-col w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-hidden sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover "
@@ -59,7 +61,12 @@ const Report = () => {
                   <span>Dashboard</span>
                 </p>
               </DropdownItem>
-              <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleLogout}>
+              <DropdownItem
+                key="delete"
+                className="text-danger"
+                color="danger"
+                onClick={handleLogout}
+              >
                 <p className="flex items-center gap-x-2">
                   <RiLogoutBoxRLine className="text-lg" />
                   <span>Logout</span>
