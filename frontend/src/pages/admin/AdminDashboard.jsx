@@ -31,6 +31,8 @@ import { AiOutlineUserDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
+import TextBasedQuestion from "../../components/TextBasedQuestion";
+import ImageBasedQuestions from "../../components/ImageBasedQuestions";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -38,20 +40,22 @@ const AdminDashboard = () => {
   const getUser = sessionStorage.getItem("login_admin");
   const [candiData, setCandiData] = useState([]);
   const [page, setPage] = useState(1);
-  const [actions, setActions] = useState("text_based");
+  const [actions, setActions] = useState("text based");
   const [questionsData, setQuestionsData] = useState({
-    category: '',
-    question: '',
+    category: "",
+    question: "",
     options: {
-      A: '',
-      B: '',
-      C: '',
-      D: ''
+      a: "",
+      b: "",
+      c: "",
+      d: "",
     },
-    answer: ''
-  })
-  const [questionSubmitting, setQuestionSubmitting] = useState(false)
+    answer: "",
+  });
+  const [questionSubmitting, setQuestionSubmitting] = useState(false);
   const rowsPerPage = 10;
+  const categories = ["Category 1", "Category 2", "Category 3", "Category 4"];
+  const [img, setImage] = useState()
 
   useEffect(() => {
     getCandidateInfo();
@@ -128,59 +132,61 @@ const AdminDashboard = () => {
   };
 
   const handleTextQuestionInputChange = (e) => {
-    const {name, value} = e.target
-    if(name.startsWith('option')) {
-      const key = name.split('-')[1] // Gets A, B, C, D
+    const { name, value } = e.target;
+    if (name.startsWith("option")) {
+      const key = name.split("-")[1]; // Gets A, B, C, D
       setQuestionsData((prev) => ({
         ...prev,
         options: {
           ...prev.options,
-          [key]: value
-        }
-      }))
-    }else{
+          [key]: value,
+        },
+      }));
+    } else {
       setQuestionsData((prev) => ({
         ...prev,
-        [name]: value
-      }))
+        [name]: value,
+      }));
     }
-  }
+  };
 
-  const handleTextQuestionSubmit = async(e) => {
-    e.preventDefault()
-    setQuestionSubmitting(true)
+  const handleTextQuestionSubmit = async (e) => {
+    e.preventDefault();
+    setQuestionSubmitting(true);
     try {
       const Textquestions = {
         category: questionsData.category,
         quesiton: questionsData.question,
         options: {
-          A: questionsData.options.A,
-          B: questionsData.options.B,
-          C: questionsData.options.C,
-          D: questionsData.options.D
+          a: questionsData.options.a,
+          b: questionsData.options.b,
+          c: questionsData.options.c,
+          d: questionsData.options.d,
         },
-        answer: questionsData.answer
-      }
-      const response = await axios.post(`${url}/add-question`, Textquestions)
-      console.log(response.data)
-      toast.success('Question added')
+        answer: questionsData.answer,
+        type: actions,
+      };
+      const response = await axios.post(`${url}/add-question`, Textquestions);
+      console.log(response.data);
+      toast.success("Question added");
       setQuestionsData({
-        category: '',
-        question: '',
+        category: "",
+        question: "",
         options: {
-          A: '',
-          B: '',
-          C: '',
-          D: ''
+          a: "",
+          b: "",
+          c: "",
+          d: "",
         },
-        answer: ''
-      })
-      setQuestionSubmitting(false)
+        answer: "",
+      });
+      setQuestionSubmitting(false);
     } catch (error) {
-      toast.error('Error while submitting text based question')
+      toast.error("Error while submitting text based question");
       console.log(error);
     }
-  }
+  };
+
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -240,104 +246,220 @@ const AdminDashboard = () => {
         </Button>
       </div>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="4xl">
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Questions</ModalHeader>
+              <ModalHeader className="flex justify-center">
+                <h2 className="text-2xl">Add Questions</h2>
+              </ModalHeader>
               <ModalBody>
                 <div>
                   {/* Selection of question type */}
-                  <div>
-                    <h2>In which format does question is</h2>
+                  <form>
+                    <h2 className="font-medium">In which format does question is</h2>
                     <RadioGroup
-                      defaultValue="text_based"
+                      defaultValue="text based"
                       orientation="horizontal"
                       className="mt-3"
                     >
                       <Radio
-                        value="text_based"
-                        onChange={() => setActions("text_based")}
+                        value="text based"
+                        onChange={() => setActions("text based")}
                       >
                         Text Based
                       </Radio>
                       <Radio
-                        value="img_based"
-                        onChange={() => setActions("img_based")}
+                        value="image based"
+                        onChange={() => setActions("image based")}
                       >
                         Image Based
                       </Radio>
                     </RadioGroup>
-                  </div>
-                  {actions === "text_based" ? (
-                    <div className="p-4">
-                    <form onSubmit={handleTextQuestionInputChange}>
-                      <div className="mb-4">
-                        <label>Category</label>
-                        <input
-                          type="text"
-                          name="category"
-                          value={questionsData.category}
-                          onChange={handleTextQuestionInputChange}
-                          className="w-full p-2 border rounded"
-                        />
-                      </div>
-              
-                      <div className="mb-4">
-                        <label>Question</label>
-                        <textarea
-                          name="question"
-                          value={questionsData.question}
-                          onChange={handleTextQuestionInputChange}
-                          className="w-full p-2 border rounded"
-                        />
-                      </div>
-              
-                      <div className="mb-4">
-                        <label>Options</label>
-                        {Object.keys(questionsData.options).map((key) => (
-                          <div key={key} className="mt-2">
-                            <label>Option {key}</label>
-                            <input
-                              type="text"
-                              name={`option-${key}`}
-                              value={questionsData.options[key]}
-                              onChange={handleTextQuestionInputChange}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                        ))}
-                      </div>
-              
-                      <div className="mb-4">
-                        <label>Correct Answer</label>
-                        <select
-                          name="answer"
-                          value={questionsData.answer}
-                          onChange={handleTextQuestionInputChange}
-                          className="w-full p-2 border rounded"
-                        >
-                          <option value="">Select correct option</option>
-                          {Object.keys(questionsData.options).map((key) => (
-                            <option key={key} value={questionsData.options[key]}>
-                              Option {key}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-              
-                      <button
-                        type="submit"
-                        disabled={questionSubmitting}
-                        className="px-4 py-2 text-white bg-blue-500 rounded"
-                      >
-                        {questionSubmitting ? 'Adding Question...' : 'Add Question'}
-                      </button>
-                    </form>
-                  </div>
-                  ) : (
+                  </form>
+                  {actions === "text based" ? (
+                    // Text Input
+                    // <div className="p-4">
+                    //   <form onSubmit={handleTextQuestionInputChange}>
+                    //     <div className="flex justify-start gap-x-10">
+                    //       {/* Select Options */}
+                    //       <div className="mb-4">
+                    //         <label>Category</label>
+                    //         <select
+                    //           name="category"
+                    //           value={questionsData.category}
+                    //           onChange={handleTextQuestionInputChange}
+                    //           className="w-full p-2 border rounded"
+                    //         >
+                    //           <option value="">Select Category</option>
+                    //           {categories.map((category) => (
+                    //             <option key={category} value={category}>
+                    //               {category}
+                    //             </option>
+                    //           ))}
+                    //         </select>
+                    //       </div>
+
+                    //       {/* Enter Questions */}
+                    //       <div className="mb-4 w-[80%]">
+                    //         <label>Question</label>
+                    //         <textarea
+                    //           name="question"
+                    //           value={questionsData.question}
+                    //           onChange={handleTextQuestionInputChange}
+                    //           className="w-full p-2 border rounded"
+                    //           rows={1}
+                    //         />
+                    //       </div>
+                    //     </div>
+
+                    //     {/* Enter Options */}
+                    //     <div>
+                    //       <label>Options</label>
+                    //     </div>
+                    //     <div className="grid grid-cols-2 gap-4 mb-4 ">
+                    //       {Object.keys(questionsData.options).map((key) => (
+                    //         <div key={key} className="mt-2">
+                    //           <label>Option {key}</label>
+                    //           <input
+                    //             type="text"
+                    //             name={`option-${key}`}
+                    //             value={questionsData.options[key]}
+                    //             onChange={handleTextQuestionInputChange}
+                    //             className="w-full p-2 border rounded"
+                    //           />
+                    //         </div>
+                    //       ))}
+                    //     </div>
+
+                    //     {/* Enter Correct Answer */}
+                    //     <div className="mb-4">
+                    //       <label>Correct Answer</label>
+                    //       <select
+                    //         name="answer"
+                    //         value={questionsData.answer}
+                    //         onChange={handleTextQuestionInputChange}
+                    //         className="w-full p-2 border rounded"
+                    //       >
+                    //         <option value="">Select correct option</option>
+                    //         {Object.keys(questionsData.options).map((key) => (
+                    //           <option
+                    //             key={key}
+                    //             value={key}
+                    //           >
+                    //             Option {key}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+
+                    //     {/* Button */}
+                    //     <button
+                    //       type="button"
+                    //       disabled={questionSubmitting}
+                    //       className="px-4 py-2 text-white bg-blue-500 rounded"
+                    //       onClick={handleTextQuestionSubmit}
+                    //     >
+                    //       {questionSubmitting
+                    //         ? "Adding Question..."
+                    //         : "Add Question"}
+                    //     </button>
+                    //   </form>
+                    // </div>
                     <div>
-                      <h1>Image based</h1>
+                      <TextBasedQuestion actions={actions}/>
+                    </div>
+                  ) : (
+                    // Image Input
+                    // <div className="p-4">
+                    //   <form onSubmit={handleTextQuestionInputChange}>
+                    //     <div className="flex justify-start gap-x-10">
+                    //       {/* Select Options */}
+                    //       <div className="mb-4">
+                    //         <label>Category</label>
+                    //         <select
+                    //           name="category"
+                    //           value={questionsData.category}
+                    //           onChange={handleTextQuestionInputChange}
+                    //           className="w-full p-2 border rounded"
+                    //         >
+                    //           <option value="">Select Category</option>
+                    //           {categories.map((category) => (
+                    //             <option key={category} value={category}>
+                    //               {category}
+                    //             </option>
+                    //           ))}
+                    //         </select>
+                    //       </div>
+
+                    //       {/* Enter Questions */}
+                    //       <div className="mb-4 w-[80%]">
+                    //         <label>Question</label>
+                    //         <textarea
+                    //           name="question"
+                    //           value={questionsData.question}
+                    //           onChange={handleTextQuestionInputChange}
+                    //           className="w-full p-2 border rounded"
+                    //           rows={1}
+                    //         />
+                    //       </div>
+                    //     </div>
+
+                    //     {/* Enter Options */}
+                    //     <div>
+                    //       <label>Options</label>
+                    //     </div>
+                    //     <div className="grid grid-cols-2 gap-4 mb-4 ">
+                    //       {Object.keys(questionsData.options).map((key) => (
+                    //         <div key={key} className="mt-2">
+                    //           <label>Option {key}</label>
+                    //           <input
+                    //             type="text"
+                    //             name={`option-${key}`}
+                    //             value={questionsData.options[key]}
+                    //             onChange={handleTextQuestionInputChange}
+                    //             className="w-full p-2 border rounded"
+                    //           />
+                    //         </div>
+                    //       ))}
+                    //     </div>
+
+                    //     {/* Enter Correct Answer */}
+                    //     <div className="mb-4">
+                    //       <label>Correct Answer</label>
+                    //       <select
+                    //         name="answer"
+                    //         value={questionsData.answer}
+                    //         onChange={handleTextQuestionInputChange}
+                    //         className="w-full p-2 border rounded"
+                    //       >
+                    //         <option value="">Select correct option</option>
+                    //         {Object.keys(questionsData.options).map((key) => (
+                    //           <option
+                    //             key={key}
+                    //             value={key}
+                    //           >
+                    //             Option {key}
+                    //           </option>
+                    //         ))}
+                    //       </select>
+                    //     </div>
+
+                    //     {/* Button */}
+                    //     <button
+                    //       type="button"
+                    //       disabled={questionSubmitting}
+                    //       className="px-4 py-2 text-white bg-blue-500 rounded"
+                    //       onClick={handleTextQuestionSubmit}
+                    //     >
+                    //       {questionSubmitting
+                    //         ? "Adding Question..."
+                    //         : "Add Question"}
+                    //     </button>
+                    //   </form>
+                    // </div>
+                    <div>
+                      <ImageBasedQuestions actions={actions}/>
                     </div>
                   )}
                 </div>
@@ -385,9 +507,6 @@ const AdminDashboard = () => {
             <TableColumn className="w-[10%] text-medium text-center">
               Actions
             </TableColumn>
-            <TableColumn className="w-[10%] text-medium text-center">
-              Delete Candidate
-            </TableColumn>
           </TableHeader>
 
           <TableBody items={items}>
@@ -422,13 +541,6 @@ const AdminDashboard = () => {
                   ) : (
                     <p>----</p>
                   )}
-                </TableCell>
-                <TableCell className="flex justify-center">
-                  <AiOutlineUserDelete
-                    className="text-xl text-center hover:bg-red-500 hover:text-white hover:rounded-md hover:text-xl hover:mx-2 hover:py-0.5 hover:font-bold cursor-pointer"
-                    title="Delete Candidate"
-                    onClick={() => deleteUser(item.email)}
-                  />
                 </TableCell>
               </TableRow>
             ))}
