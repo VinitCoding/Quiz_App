@@ -13,6 +13,7 @@ class QuestionInput(BaseModel):
     question: str
     options: Dict[str, str]
     answer: str
+    type: str
 
 def read_questions(file_path: str):
     if not os.path.exists(file_path):
@@ -34,7 +35,7 @@ async def add_question(question_input: QuestionInput):
         "question": question_input.question,
         "options": question_input.options,
         "answer": question_input.answer,
-        "type": "text based" 
+        "type": question_input.type
     }
 
     category_exists = False
