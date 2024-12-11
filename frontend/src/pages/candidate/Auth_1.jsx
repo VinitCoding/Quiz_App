@@ -31,7 +31,7 @@ const Auth_1 = () => {
         setButton(false)
         const response = await axios.get(`${URL}/send_otp?email=${values.email}`)
         if (response) {
-            console.log(response);
+            // console.log(response);
             // localStorage.setItem('registred_username', values.full_name)
             // localStorage.setItem('registred_email', values.email)
             setTimeout(() => {
@@ -71,9 +71,9 @@ const Auth_1 = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     OTPFormik;
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log(errors);
+  // }, [errors]);
 
   const handleForm = () => {
     navigate('/user_login')

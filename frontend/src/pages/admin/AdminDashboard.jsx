@@ -125,8 +125,10 @@ const AdminDashboard = () => {
   const dateConverstion = (d) => {
     const date = new Date(d);
     const day = String(date.getDate()).padStart(2, "0"); // Ensure 2 digits
-    const month = String(date.getMonth()).padStart(2, "0"); // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const year = date.getFullYear();
+    console.log(day, month, year);
+    
 
     return `${day}/${month}/${year}`;
   };

@@ -45,7 +45,7 @@ const Auth_2 = () => {
             // console.log(response);
             setTimeout(() => {
                 setTimeout(() => {
-                    navigate('/login', {
+                    navigate('/user_login', {
                         state: {
                             data: {
                                values

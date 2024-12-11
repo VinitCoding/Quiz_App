@@ -45,9 +45,10 @@ const ImageBasedQuestions = ({ actions }) => {
 
     setQuestionSubmitting(true);
     try {
+      const updated_img = img.replace('data:image/png;base64,', '')
       const Textquestions = {
         category: values.category,
-        question: img,
+        question: updated_img,
         options: values.options,
         answer: values.answer,
         type: actions,

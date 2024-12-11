@@ -24,11 +24,12 @@ const ExamPage = () => {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [submitQuiz, setSubmitQuiz] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState({});
-  const [minutes, setMinutes] = useState(10);
+  const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const [showToast, setShowToast] = useState(false)
+  const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate("/");
-  const toastTimerRef = useRef()
+  const toastTimerRef = useRef();
+  const exitAttemptRef = useRef(0);
 
   const getReport = async () => {
     // Ensure all questions are stored, even if unanswered
@@ -42,21 +43,21 @@ const ExamPage = () => {
         if (!allAnswers[categoryName][`question${qIndex}`]) {
           allAnswers[categoryName][`question${qIndex}`] = {
             questionIndex: qIndex,
-            selectedOption: 'null', // Indicate unanswered
+            selectedOption: "null", // Indicate unanswered
             question: question.question,
-            answer: 'null',
+            answer: "null",
             type: question.type,
           };
         }
       });
     });
-  
+
     try {
       const response = await axios.post(`${URL}/submit`, {
         username: getUser,
         category_info: allAnswers,
       });
-  
+
       if (!response) {
         toast.error("Something went wrong");
       }
@@ -73,14 +74,13 @@ const ExamPage = () => {
         console.log(allAnswers);
         setSubmitQuiz(true);
       }, 500);
-  
+
       console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
   const handleLogout = () => {
-
     getReport();
   };
   const URL = "http://127.0.0.1:8000/exam";
@@ -98,6 +98,52 @@ const ExamPage = () => {
   useEffect(() => {
     getQuestions();
     setSubmitQuiz(false);
+    enterFullscreen();
+    const handleKeyPress = (event) => {
+      if (event.key === "Escape" || event.keyCode === 27) {
+        const confirmSubmit = confirm("Do you want to really submit it?");
+        if (confirmSubmit) {
+          getReport();
+        } else {
+          enterFullscreen();
+        }
+        return;
+      }
+      if (
+        event ||
+        (event.ctrlKey && event.key === "r") ||
+        (event.ctrlKey && event.key === "c") ||
+        (event.ctrlKey && event.key === "x")
+      ) {
+        event.preventDefault();
+        if (!showToast) {
+          toast.error("Don't press any keys from keyboard", {
+            duration: 1000,
+          });
+          setShowToast(true);
+        }
+      }
+    };
+
+    const handleAltTab = (event) => {
+      if (event.altKey && event.key === "Tab") {
+        event.preventDefault(); // Prevent Alt + Tab
+        getReport(); // Navigate to dashboard
+        enterFullscreen();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener("keydown", handleAltTab);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("keydown", handleAltTab);
+
+      if (toastTimerRef.current) {
+        clearTimeout(toastTimerRef.current);
+      }
+    };
   }, []);
 
   // Timer functions
@@ -121,27 +167,15 @@ const ExamPage = () => {
         }
       }
     }, 1000);
+    
 
     return () => {
       // cleanup functions = Stop the interval when component is unmounts
       clearInterval(interval);
     };
   }, [seconds]); // Re-run this effects whenever the seconds is changed
-  
-  useEffect(() => {
-    const enterFullscreen = () => {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-      }
-    };
 
+  useEffect(() => {
     enterFullscreen();
 
     const handleKeyPress = (event) => {
@@ -152,55 +186,79 @@ const ExamPage = () => {
         (event.ctrlKey && event.key === "x")
       ) {
         event.preventDefault();
-        if(!showToast){
-          toast.error("Don't press any keys from keyboard");
-          setShowToast(true)
+        if (!showToast) {
+          toast.error("Don't press any keys from keyboard", {
+            duration: 1000,
+          });
+          setShowToast(true);
         }
       }
     };
 
     const handleAltTab = (event) => {
       if (event.altKey && event.key === "Tab") {
-        
         event.preventDefault(); // Prevent Alt + Tab
         getReport(); // Navigate to dashboard
-        enterFullscreen()
+        enterFullscreen();
       }
     };
 
-    // const handleRightClick = (event) => {
-    //   event.preventDefault(); // Prevent context menu
-    // };
+    const handleRightClick = (event) => {
+      event.preventDefault(); // Prevent context menu
+    };
 
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
-        const showAlert = confirm('Do you really want to submit exam...')
-        if(showAlert === true){
+        if (exitAttemptRef.current === 0) {
+          alert(
+            "You are attempting to exit fullscreen mode. Don't do that... for next time if try it again then quiz will get submitted..."
+          );
+          enterFullscreen();
+          exitAttemptRef.current += 1;
+        } else {
           getReport();
-        }
-        if(showAlert === false){
-          enterFullscreen()
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyPress);
     window.addEventListener("keydown", handleAltTab);
-    // window.addEventListener("contextmenu", handleRightClick); // Block right-click
+    window.addEventListener("contextmenu", handleRightClick); // Block right-click
     document.addEventListener("fullscreenchange", handleFullscreenChange);
 
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
       window.removeEventListener("keydown", handleAltTab);
-      // window.removeEventListener("contextmenu", handleRightClick);
+      window.removeEventListener("contextmenu", handleRightClick);
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
 
       // Clean up the timer functions
-      if(toastTimerRef.current){
-        clearTimeout(toastTimerRef.current)
+      if (toastTimerRef.current) {
+        clearTimeout(toastTimerRef.current);
       }
     };
-  }, [navigate, showToast]);
+  }, []);
+  
+  const enterFullscreen = () => {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().catch((err) => {
+        console.error("Error attempting to enable full-screen mode:", err);
+      });
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen().catch((err) => {
+        console.error("Error attempting to enable full-screen mode:", err);
+      });
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen().catch((err) => {
+        console.error("Error attempting to enable full-screen mode:", err);
+      });
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen().catch((err) => {
+        console.error("Error attempting to enable full-screen mode:", err);
+      });
+    }
+  };
 
   const getTotalQuestionCount = (upToCategory) => {
     let count = 0;
@@ -465,7 +523,10 @@ const ExamPage = () => {
               </div>
             ) : (
               <div className="flex flex-col p-6 mx-6 mt-3 overflow-y-auto bg-white rounded-md shadow-md h-fit">
-                <p className="text-lg font-semibold text-left"></p>
+                <p className="text-lg font-semibold text-left">
+                  {" "}
+                  Q.{totalQuestionNumber}
+                </p>
                 <div className="w-full h-auto overflow-y-auto bg-gray-200 max-h-[40vh] ">
                   <img
                     src={`data:image/png;base64,${currentQuestion.question}`}
@@ -961,7 +1022,7 @@ export default ExamPage;
 //                         <li
 //                           key={`option-${key}`}
 //                           onClick={() => handleOptionSelect(key)}
-//                           className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
+//                           className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer
 //                                       ${
 //                                         isSelected
 //                                           ? "bg-green-600 text-white font-semibold"
@@ -1000,7 +1061,7 @@ export default ExamPage;
 //                         <li
 //                           key={`option-${key}`}
 //                           onClick={() => handleOptionSelect(key)}
-//                           className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer 
+//                           className={`px-2 py-1 border-[0.6px] border-black rounded-md text-base cursor-pointer
 //                                       ${
 //                                         isSelected
 //                                           ? "bg-green-600 text-white font-semibold"

@@ -19,7 +19,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 const Report = () => {
   const location = useLocation();
   const { data } = location.state;
-  console.log("Data came to Report", data);
+  // console.log("Data came to Report", data);
 
   const getUser = sessionStorage.getItem("login_user");
   const navigate = useNavigate("/");
@@ -30,6 +30,7 @@ const Report = () => {
   const handleLogout = () => {
     sessionStorage.removeItem("quiz_submitted");
     sessionStorage.removeItem("login_user");
+    sessionStorage.clear()
     navigate("/");
   };
   return (

@@ -15,10 +15,11 @@ import Analytics from "./pages/admin/Analytics";
 import AdminLogin from "./pages/admin/AdminLogin";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
 import PageNotFound from "./pages/PageNotFound";
+import FullScreen from "./components/FullScreen";
 
 const App = () => {
   return (
-    <main className="w-screen h-screen">
+    <main className="w-screen h-screen overflow-hidden">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/user_login" element={<Login />} />
@@ -41,6 +42,9 @@ const App = () => {
             <ProtectedRoute>
               <ExamPage />
             </ProtectedRoute>
+            // <ProtectedRoute>
+            //   <FullScreen />
+            // </ProtectedRoute>
           }
         />
         <Route

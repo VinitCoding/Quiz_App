@@ -27,7 +27,7 @@ const Analytics = () => {
   const { data } = location.state;
   const navigate = useNavigate();
   const url = "http://127.0.0.1:8000/admin";
-  console.log('Data Arrived at Analytics Pagee', data);
+  console.log("Data Arrived at Analytics Pagee", data);
   const [examData, setExamData] = useState([]);
 
   const getUser = sessionStorage.getItem("login_admin");
@@ -49,7 +49,7 @@ const Analytics = () => {
       console.error("Error at loading user data", error);
     }
   };
-  const { isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <section className="w-screen h-screen overflow-x-hidden bg-blue-50 ">
       {/* Navbar */}
@@ -132,8 +132,8 @@ const Analytics = () => {
 
                         {/* Gauge chart */}
                         <div className="flex justify-center mt-4">
-                          <div className="w-[50%] max-w-full ml-5">  
-                            <ZoneIndicator data={data.zone}/>
+                          <div className="w-[50%] max-w-full ml-5">
+                            <ZoneIndicator data={data.zone} />
                           </div>
                         </div>
 
@@ -145,13 +145,17 @@ const Analytics = () => {
                             <h4 className="text-lg">
                               Total Number of Questions
                             </h4>
-                            <h4 className="text-lg">{data.report.total_questions}</h4>
+                            <h4 className="text-lg">
+                              {data.report.total_questions}
+                            </h4>
                           </div>
                           <div className="flex justify-between px-4">
                             <h4 className="text-lg">
                               Total number of correct questions
                             </h4>
-                            <h4 className="text-lg">{data.report.correct_answers}</h4>
+                            <h4 className="text-lg">
+                              {data.report.correct_answers}
+                            </h4>
                           </div>
                         </div>
 
@@ -162,7 +166,10 @@ const Analytics = () => {
                           <h3 className="text-lg">Percentage</h3>
                           <h3 className="font-semibold text-large">
                             {/* {data.report.percentage} */}
-                            {data.report.percentage === 100 ? '100' : Math.floor(data.report.percentage * 100) / 100}%
+                            {data.report.percentage === 100
+                              ? "100"
+                              : Math.floor(data.report.percentage * 100) / 100}
+                            %
                           </h3>
                         </div>
                       </div>
@@ -184,18 +191,23 @@ const Analytics = () => {
         <div className="bg-[#DCECFF] max-h-[70vh] overflow-y-auto w-full scrollbar-custom">
           <div className="flex flex-col items-center justify-center mt-5 gap-y-4">
             {examData.map((item, index) => (
-              <div className="w-full max-w-6xl p-3 bg-white rounded-md" key={index}>
+              <div
+                className="w-full max-w-6xl p-3 bg-white rounded-md"
+                key={index}
+              >
                 <div className="flex flex-col items-start gap-y-1">
                   <h1 className="font-medium w-fit">
                     Q.{index + 1}.{" "}
                     {item.Qtype === "text based" ? (
                       item.question
                     ) : (
-                      <img
-                        src={`data:image/png;base64,${item.question}`}
-                        alt="question"
-                        className="max-w-full"
-                      />
+                      <div className="h-full max-h-[50vh] overflow-y-auto">
+                        <img
+                          src={`data:image/png;base64,${item.question}`}
+                          alt="question"
+                          className="w-full "
+                        />
+                      </div>
                     )}
                   </h1>
                   {item.selected_answer === "null" && (

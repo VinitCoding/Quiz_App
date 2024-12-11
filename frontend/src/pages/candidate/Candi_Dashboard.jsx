@@ -32,7 +32,7 @@ const Candi_Dashboard = () => {
     navigate('/exam')
   }
   return (
-    <section className="flex flex-col w-screen h-screen overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-hidden sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover " style={{ backgroundImage: `url(${bg_img})`}}>
+    <section className="flex flex-col w-screen h-screen overflow-x-hidden overflow-y-auto bg-cover xl:overflow-hidden lg:overflow-hidden md:overflow-hidden sm:overflow-y-auto lg:bg-center md:bg-center sm:bg-none xl:bg-center xl:bg-cover md:bg-cover sm:bg-cover" style={{ backgroundImage: `url(${bg_img})`}}>
 
       {/* Navbar */}
       <nav className="flex justify-between w-full p-3 bg-white border-b-2 gap-x-1">
